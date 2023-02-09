@@ -1,0 +1,1 @@
+# Pesquisa sobre code smells
