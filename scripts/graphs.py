@@ -216,6 +216,18 @@ class Graphs:
         print("Coeficiente de correlação de Spearman:", corr_coef)
         plt.text(0, -0.25, "Coeficiente de correlação de Spearman: {}".format(corr_coef),
         bbox=dict(facecolor='red', alpha=0.5))
+        
+    # Gráfico de dispersão
+    def scatter(self, x, y):
+        column_x = x
+        column_y = y
+        x, y = self.get_columns(x, y)
+
+        # Plotar o gráfico de dispersão
+        plt.scatter(x, y)
+        plt.title(f'Gráfico de Dispersão: {column_x} VS {column_y}')
+        plt.xlabel(column_x)
+        plt.ylabel(column_y)
 
         plt.show()
 
@@ -234,10 +246,11 @@ if __name__ == "__main__":
             4. Mann-Whitney U (histograma)
             5. Pearson
             6. Spearman
+            7. Dispersão comum
             
         >> """))
         
-        if choose > 6 or choose < 1:
+        if choose > 7 or choose < 1:
             print("\n\nPor favor, escolha uma opção válida.")
         else:
             if choose < 3:
@@ -261,6 +274,8 @@ if __name__ == "__main__":
                     graph.pearson(x, y)
                 elif choose == 6:
                     graph.spearman(x, y)
+                elif choose == 7:
+                    graph.scatter(x, y)
         
         ex = str(input(" - Deseja realizar outra operação? (S/n):"))
         if(ex == 'n' or ex == 'N'):
