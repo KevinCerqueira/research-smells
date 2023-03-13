@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 import sqlite3
+import platform
 
 class Research:
 
@@ -15,18 +16,31 @@ class Research:
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
         # Conectando ao banco de dados do https://github.com/clowee/The-Technical-Debt-Data_set/
-        path_data_set = os.path.join(BASE_DIR, "dataset.db")
+        path_data_set = os.path.join(BASE_DIR, self.env("DATASET"))
         self.conn_data_set = sqlite3.connect(path_data_set)
         self.data_set = self.conn_data_set.cursor()
         
         # Conectando ao banco local
-        path_local_db = os.path.join(BASE_DIR, "research.db")
+        path_local_db = os.path.join(BASE_DIR, self.env("RESEARCH_DB"))
         self.conn_local_db = sqlite3.connect(path_local_db)
         self.local_db = self.conn_local_db.cursor()
 
         # Caso deseje pular a etapa de verificação de leitura e gravação dos projetos e autores 
         if (not fast):
             self.init_local_table()
+
+    def env(self, var):
+        env = '\\.env'
+        if(platform.system() == 'Linux'):
+            env = '/.env'
+            
+        with open(os.path.dirname(os.path.realpath(__file__)) + env, 'r', encoding='utf-8') as file_env:
+            line = file_env.readline()
+            while(line):
+                content = line.split('=')
+                if(content[0] == var):
+                    return content[1]
+                line = file_env.readline()
 
     # Fecha as conexões
     def close_connections(self):
@@ -37,27 +51,48 @@ class Research:
     def init_local_table(self):
         self.local_db.execute("""
                 CREATE TABLE IF NOT EXISTS "author_information" (
-                "project_id"                  TEXT,
-                "author"	                  TEXT,
-                "project_experience_in_days"  REAL,
-                "project_experience_in_hours" REAL,
-                "number_lines_edited"	      INTEGER,
-                "single_commit"               INTEGER,
-                "amount_commits"		      INTEGER,
-                "first_commit"                TEXT,
-                "last_commit"                 TEXT,
-                "amount_code_smells"	      INTEGER,
-                "amount_sonar_smells"	      INTEGER
+                    "project_id"                      TEXT,
+                    "author"	                      TEXT,
+                    "project_experience_in_days"      REAL,
+                    "project_experience_in_hours"     REAL,
+                    "number_lines_edited"	          INTEGER,
+                    "single_commit"                   INTEGER,
+                    "amount_commits"		          INTEGER,
+                    "first_commit"                    TEXT,
+                    "last_commit"                     TEXT,
+                    "amount_code_smells"	          INTEGER,
+                    "amount_sonar_smells"	          INTEGER
+                    );
+            """)
+        
+        self.local_db.execute("""
+                CREATE TABLE IF NOT EXISTS "author_percentage_information" (
+                    "project_id"                                TEXT,
+                    "author"	                                TEXT,
+                    "lines_edited"                   REAL,
+                    "rounded_lines_edited"           REAL,
+                    "commits"                        REAL,
+                    "rounded_commits"                REAL,
+                    "experience_in_days"             REAL,
+                    "rounded_experience_in_days"     REAL,
+                    "experience_in_hours"            REAL,
+                    "rounded_experience_in_hours"    REAL,
+                    "code_smells"                    REAL,
+                    "rounded_code_smells"            REAL,
+                    "sonar_smells"                   REAL,
+                    "rounded_sonar_smells"           REAL
+                    
                 );
             """)
+
         self.local_db.execute("""
-                CREATE TABLE IF NOT EXISTS "project_information" (
+            CREATE TABLE IF NOT EXISTS "project_information" (
                 "project_id"            TEXT,
                 "amount_commits"		INTEGER,
                 "first_commit"          TEXT,
                 "last_commit"           TEXT,
-                "total_time_in_days"    TEXT,
-                "total_time_in_hours"   TEXT,
+                "total_time_in_days"    REAL,
+                "total_time_in_hours"   REAL,
                 "number_lines_edited"	INTEGER,
                 "amount_code_smells"	INTEGER,
                 "amount_sonar_smells"	INTEGER
@@ -77,6 +112,11 @@ class Research:
             self.local_db.execute("SELECT 1 FROM author_information WHERE project_id = ? AND author = ?", (project_id, author))
             if (len(self.local_db.fetchall()) == 0):
                 self.local_db.execute("INSERT INTO author_information (project_id, author) VALUES (?,?)", (project_id, author))
+            
+            # Inserindo os projetos e os autores na tabela que guarda as informações de porcentagem dos autores
+            self.local_db.execute("SELECT 1 FROM author_percentage_information WHERE project_id = ? AND author = ?", (project_id, author))
+            if (len(self.local_db.fetchall()) == 0):
+                self.local_db.execute("INSERT INTO author_percentage_information (project_id, author) VALUES (?,?)", (project_id, author))
 
             # Inserindo os projetos na tabela que guarda as informações dos projetos
             self.local_db.execute("SELECT 1 FROM project_information WHERE project_id = ?", (project_id,))
@@ -229,7 +269,7 @@ class Research:
     def read_number_lines_edited_author(self):
         self.data_set.execute("""
             SELECT
-                (lines_added + lines_removed) as number_lines_edited,
+                (SUM(lines_added) + SUM(lines_removed)) as number_lines_edited,
                 git_commits.project_id,
                 git_commits.author
             FROM git_commits
@@ -260,14 +300,15 @@ class Research:
     def read_number_lines_edited_project(self):
         self.data_set.execute("""
             SELECT
-                (lines_added + lines_removed) as number_lines_edited,
-                git_commits.project_id
-            FROM git_commits
-            INNER JOIN
-                git_commits_changes ON git_commits.commit_hash = git_commits_changes.commit_hash
+                (SUM(gcc.lines_added) + SUM(gcc.lines_removed)) as number_lines_edited,
+                gcc.project_id
+            FROM 
+                git_commits_changes gcc
+            INNER JOIN 
+                git_commits gc ON gc.commit_hash = gcc.commit_hash
             WHERE
-                git_commits.merge = 'False' 
-            GROUP BY git_commits.project_id
+                gc.merge = 'False' 
+            GROUP BY gcc.project_id
         """)
 
         for result in self.data_set.fetchall():
@@ -384,6 +425,257 @@ class Research:
             )
         self.conn_local_db.commit()
 
+    # Deleta authores que não tem nada em projeto nenhum
+    def delete_null_authors(self):
+        self.local_db.execute("""
+            DELETE FROM 
+                author_information
+            WHERE
+                project_experience_in_days is NULL 
+                AND project_experience_in_hours is NULL 
+                AND number_lines_edited is NULL 
+                AND single_commit is NULL 
+                AND first_commit is NULL 
+                AND last_commit is NULL 
+                AND amount_code_smells is NULL 
+                AND amount_sonar_smells is NULL 
+        """)
+        self.conn_local_db.commit()
+        
+    # Calcula a porcentagem de linhas editadas de cada author
+    def percentage_lines_edited(self):
+        self.local_db.execute("""
+            SELECT DISTINCT
+                a.project_id,
+                a.author,
+                a.number_lines_edited,
+                p.number_lines_edited as project_number_lines_edited
+            FROM 
+                author_information a
+            INNER JOIN
+                project_information p ON p.project_id = a.project_id
+        """)
+
+        for result in self.local_db.fetchall():
+            project_id = result[0]
+            author = result[1]
+            number_lines_edited = result[2]
+            project_number_lines_edited = result[3]
+            lines_edited = None
+            rounded_lines_edited = None
+            
+            if(number_lines_edited != 0 and number_lines_edited != None):
+                lines_edited = ((number_lines_edited * 100) / project_number_lines_edited)
+                rounded_lines_edited = round(lines_edited, 2)
+
+            print("Updating lines_edited to project_id {} author {}".format(project_id, author))
+            self.local_db.execute(
+                """
+                    UPDATE 
+                        author_percentage_information
+                    SET 
+                        lines_edited = ?,
+                        rounded_lines_edited = ?
+                    WHERE 
+                        project_id = ?
+                        AND author = ?
+                """,
+                (lines_edited, rounded_lines_edited, project_id, author)
+            )
+        self.conn_local_db.commit()
+        
+    # Calcula a porcentagem de commits de cada author
+    def percentage_commits(self):
+        self.local_db.execute("""
+            SELECT DISTINCT
+                a.project_id,
+                a.author,
+                a.amount_commits,
+                p.amount_commits as project_amount_commits
+            FROM 
+                author_information a
+            INNER JOIN
+                project_information p ON p.project_id = a.project_id
+        """)
+
+        for result in self.local_db.fetchall():
+            project_id = result[0]
+            author = result[1]
+            amount_commits = result[2]
+            project_amount_commits = result[3]
+            
+            commits = None
+            rounded_commits = None
+            
+            if(amount_commits != 0 and amount_commits != None):
+                commits = ((amount_commits * 100) / project_amount_commits)
+                rounded_commits = round(commits, 2)
+
+            print("Updating commits to project_id {} author {}".format(project_id, author))
+            
+            self.local_db.execute(
+                """
+                    UPDATE 
+                        author_percentage_information
+                    SET 
+                        commits = ?,
+                        rounded_commits = ?
+                    WHERE 
+                        project_id = ?
+                        AND author = ?
+                """,
+                (commits, rounded_commits, project_id, author)
+            )
+        self.conn_local_db.commit()
+
+    # Calcula a porcentagem de experiencia de cada author
+    def percentage_experience(self):
+        self.local_db.execute("""
+            SELECT DISTINCT
+                a.project_id,
+                a.author,
+                a.project_experience_in_days,
+                a.project_experience_in_hours,
+                p.total_time_in_days,
+                p.total_time_in_hours
+            FROM 
+                author_information a
+            INNER JOIN
+                project_information p ON p.project_id = a.project_id
+        """)
+
+        for result in self.local_db.fetchall():
+            project_id = result[0]
+            author = result[1]
+            project_experience_in_days = result[2]
+            project_experience_in_hours = result[3]
+            total_time_in_days = result[4]
+            total_time_in_hours = result[5]
+            
+            experience_in_days = None
+            rounded_experience_in_days = None
+            
+            experience_in_hours = None
+            rounded_experience_in_hours = None
+
+            if(project_experience_in_days != 0 and project_experience_in_days != None):
+                experience_in_days = ((project_experience_in_days * 100) / float(total_time_in_days))
+                rounded_experience_in_days = round(experience_in_days, 2)
+                
+            if(project_experience_in_hours != 0 and project_experience_in_hours != None):
+                experience_in_hours = ((project_experience_in_hours * 100) / float(total_time_in_hours))
+                rounded_experience_in_hours = round(experience_in_hours, 2)
+
+            print("Updating percentage_experience to project_id {} author {}".format(project_id, author))
+            
+            self.local_db.execute(
+                """
+                    UPDATE 
+                        author_percentage_information
+                    SET 
+                        experience_in_days = ?,
+                        rounded_experience_in_days = ?,
+                        experience_in_hours = ?,
+                        rounded_experience_in_hours = ?
+                    WHERE 
+                        project_id = ?
+                        AND author = ?
+                """,
+                (experience_in_days, rounded_experience_in_days, experience_in_hours, rounded_experience_in_hours, project_id, author)
+            )
+        self.conn_local_db.commit()
+        
+    # Porcentagem de code smells
+    def percentage_smells(self):
+        self.local_db.execute("""
+            SELECT DISTINCT
+                a.project_id,
+                a.author,
+                a.amount_code_smells,
+                a.amount_sonar_smells,
+                p.amount_code_smells AS project_amount_code_smells,
+                p.amount_sonar_smells AS project_amount_sonar_smells
+            FROM 
+                author_information a
+            INNER JOIN
+                project_information p ON p.project_id = a.project_id
+        """)
+
+        for result in self.local_db.fetchall():
+            project_id = result[0]
+            author = result[1]
+            amount_code_smells = result[2]
+            amount_sonar_smells = result[3]
+            project_amount_code_smells = result[4]
+            project_amount_sonar_smells = result[5]
+            
+            code_smells = None
+            rounded_code_smells = None
+            
+            sonar_smells = None
+            rounded_sonar_smells = None
+            
+            if(amount_code_smells != 0 and amount_code_smells != None):
+                code_smells = ((amount_code_smells * 100) / project_amount_code_smells)
+                rounded_code_smells = round(code_smells, 2)
+            
+            if(amount_sonar_smells != 0 and amount_sonar_smells != None):
+                sonar_smells = ((amount_sonar_smells * 100) / project_amount_sonar_smells)
+                rounded_sonar_smells = round(sonar_smells, 2)
+
+            print("Updating smells to project_id {} author {}".format(project_id, author))
+            
+            self.local_db.execute(
+                """
+                    UPDATE 
+                        author_percentage_information
+                    SET 
+                        code_smells = ?,
+                        rounded_code_smells = ?,
+                        sonar_smells = ?,
+                        rounded_sonar_smells = ?
+                    WHERE 
+                        project_id = ?
+                        AND author = ?
+                """,
+                (code_smells, rounded_code_smells, sonar_smells, rounded_sonar_smells, project_id, author)
+            )
+        self.conn_local_db.commit()
+    # Deleta authores que não tem nada em projeto nenhum
+    def delete_null_authors_percentage(self):
+        self.local_db.execute("""
+            DELETE FROM 
+                author_percentage_information
+            WHERE
+                lines_edited is NULL
+                AND commits is NULL
+                AND experience_in_days is NULL
+                AND experience_in_hours is NULL
+        """)
+        self.conn_local_db.commit()
+        # self.local_db.execute("""
+        #     UPDATE
+        #         author_percentage_information
+        #     SET
+        #         lines_edited = 0,
+        #         commits = 0,
+        #         experience_in_days = 0,
+        #         experience_in_hours = 0,
+        #         rounded_lines_edited = 0,
+        #         rounded_commits = 0,
+        #         rounded_experience_in_days = 0,
+        #         rounded_experience_in_hours = 0
+        #     WHERE
+        #         lines_edited IS NULL
+        #         AND commits IS NULL
+        #         AND experience_in_days IS NULL
+        #         AND experience_in_hours IS NULL
+        #         AND rounded_lines_edited IS NULL
+        #         AND rounded_commits IS NULL
+        #         AND rounded_experience_in_days IS NULL
+        #         AND rounded_experience_in_hours IS NULL
+        # """)
+        # self.conn_local_db.commit()
 
 if __name__ == "__main__":
     research = Research(fast=True)
@@ -394,8 +686,18 @@ if __name__ == "__main__":
     # research.read_amout_code_smells_author()
     # research.read_amout_code_smells_project()
 
-    research.read_number_lines_edited_author()
-    research.read_number_lines_edited_project()
-
     # research.calculate_author_infos()
     # research.calculate_project_infos()
+
+    # research.read_number_lines_edited_author()
+    # research.read_number_lines_edited_project()
+    
+    # research.delete_null_authors()
+    
+    # research.percentage_lines_edited()
+    # research.percentage_commits()
+    # research.percentage_experience()
+    research.percentage_smells()
+    
+    # research.delete_null_authors_percentage()
+    
