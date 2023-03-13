@@ -5,6 +5,7 @@ import numpy as np
 from scipy.stats import shapiro, probplot, spearmanr, mannwhitneyu
 from sklearn.preprocessing import PowerTransformer
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
 
 class Graphs:
 
@@ -92,20 +93,23 @@ class Graphs:
         print("SHAPIRO: {}".format(p))
         
         if p > 0.05:
-            print(f"{column} são normalmente distribuídas.\n")
+            print(f"{column} são normalmente distribuídas.\n\n")
         else:
             print(f"{column} não são normalmente distribuídas.\n\n")
 
         transformer = PowerTransformer(method='yeo-johnson')
         array_normal = transformer.fit_transform(array.reshape(-1, 1))
 
+        # scaler = StandardScaler()
+        # array_normal = scaler.fit_transform(array.reshape(-1, 1))
+
         stat, p = shapiro(array_normal)
 
         print("Power Transformer SHAPIRO: {}".format(p))
         if p > 0.05:
-            print(f"{column} normalizadas são normalmente distribuídas.\n")
+            print(f"{column} normalizadas são normalmente distribuídas.\n\n")
         else:
-            print(f"{column} normalizadas não são normalmente distribuídas.")
+            print(f"{column} normalizadas não são normalmente distribuídas.\n\n")
     
     # Shapiro-Wilk   
     def shapiro_plot(self, column):
@@ -116,15 +120,17 @@ class Graphs:
         # Plota o gráfico de probabilidade normal
         fig = plt.figure(figsize=(8, 6))
         ax = fig.add_subplot(111)
-        res = probplot(data, plot=ax)
+        probplot(data, plot=ax)
         ax.set_title(f'Gráfico de probabilidade normal: {column} (Shapiro-Wilk)')
-        ax.set_xlabel(f'{x} (Quantis teóricos)')
-        ax.set_ylabel(f'{y} (Quantis observados)')
-        plt.show()
+        ax.set_xlabel('Quantis teóricos')
+        ax.set_ylabel('Quantis observados')
 
         # Imprime o resultado do teste Shapiro-Wilk
         print('Estatística de teste:', stat)
         print('Valor p:', p)
+        plt.text(0, -0.25, "Estatística do teste: {}\nValor-p: {}".format(stat, p),
+                bbox=dict(facecolor='red', alpha=0.5))
+        plt.show()
     
     # Mann-Whitney U
     def mannwhitneyu(self, x, y):
@@ -132,32 +138,41 @@ class Graphs:
         column_y = y
         x, y = self.get_columns(x, y)
 
-        # Calcula a estatística de teste de Mann-Whitney U
+        # Realizar o teste de Mann-Whitney U
         stat, p = mannwhitneyu(x, y)
 
-        # Cria um array de valores para a distribuição Mann-Whitney
-        xmin, xmax = np.min(x), np.max(x)
-        ymin, ymax = np.min(y), np.max(y)
-        x_values = np.linspace(xmin, xmax, 100)
-        y_values = np.linspace(ymin, ymax, 100)
-        X, Y = np.meshgrid(x_values, y_values)
-        Z = np.zeros_like(X)
+        # Plotar os pontos das duas amostras em um gráfico de dispersão
+        plt.scatter(x, [0] * len(x), alpha=0.5, label=column_x)
+        plt.scatter(y, [1] * len(y), alpha=0.5, label=column_y)
+        plt.legend(loc="upper right")
+        plt.title(f"Gráfico de dispersão: {column_x} VS {column_y} (Mann-Whitney U)")
 
-        # Verifica se há pelo menos um elemento em x e y antes de gerar a distribuição
-        if len(x) > 0 and len(y) > 0:
-            for i in range(len(x_values)):
-                for j in range(len(y_values)):
-                    Z[i,j] = mannwhitneyu(x[x<X[i,j]][0], y[y<Y[i,j]][0])[1]
-        else:
-            print("Os dados de entrada têm tamanho zero!")
+        # Imprimir o resultado do teste no gráfico
+        plt.text(0, -0.25, "Estatística do teste: {}\nValor-p: {}".format(stat, p),
+                bbox=dict(facecolor='red', alpha=0.5))
 
-        # Plota o gráfico da distribuição Mann-Whitney
-        fig = plt.figure(figsize=(8, 6))
-        ax = fig.add_subplot(111, projection='3d')
-        ax.plot_surface(X, Y, Z, cmap='viridis')
-        ax.set_xlabel(column_x)
-        ax.set_ylabel(column_y)
-        ax.set_zlabel('p-value')
+        plt.show()
+
+    # Mann-Whitney U
+    def mannwhitneyu_histogram(self, x, y):
+        column_x = x
+        column_y = y
+        x, y = self.get_columns(x, y)
+
+
+        # Realizar o teste de Mann-Whitney U
+        stat, p = mannwhitneyu(x, y)
+
+        # Plotar as duas amostras em um histograma
+        plt.hist(x, alpha=0.5, label=column_x)
+        plt.hist(y, alpha=0.5, label=column_y)
+        plt.legend(loc="upper right")
+        plt.title(f"Histograma das amostras {column_x} VS {column_y} (Mann-Whitney U)")
+
+        # Imprimir o resultado do teste no gráfico
+        plt.text(0.5, 20, "Estatística do teste: {}\nValor-p: {}".format(stat, p),
+                bbox=dict(facecolor='red', alpha=0.5))
+
         plt.show()
 
     # Pearson
@@ -177,6 +192,8 @@ class Graphs:
 
         # Imprimir o coeficiente de correlação de Pearson
         print("Coeficiente de correlação de Pearson:", corr_coef)
+        plt.text(0, -0.25, "Coeficiente de correlação de Pearson: {}".format(corr_coef),
+                bbox=dict(facecolor='red', alpha=0.5))
 
         plt.show()
 
@@ -197,6 +214,8 @@ class Graphs:
 
         # Imprimir o coeficiente de correlação de Spearman
         print("Coeficiente de correlação de Spearman:", corr_coef)
+        plt.text(0, -0.25, "Coeficiente de correlação de Spearman: {}".format(corr_coef),
+        bbox=dict(facecolor='red', alpha=0.5))
 
         plt.show()
 
@@ -204,36 +223,46 @@ if __name__ == "__main__":
     
     graph = Graphs()
     
+    columns = ["lines_edited","rounded_lines_edited","commits","rounded_commits","experience_in_days","rounded_experience_in_days","experience_in_hours","rounded_experience_in_hours","code_smells","rounded_code_smells","sonar_smells","rounded_sonar_smells"]
+    
     while True:
         choose = int(input("""
             - Qual função você deseja acessar?
             1. Shapiro-Wilk (somente texto)
             2. Shapiro-Wilk
             3. Mann-Whitney U
-            4. Pearson
-            5. Spearman
-        """))
+            4. Mann-Whitney U (histograma)
+            5. Pearson
+            6. Spearman
+            
+        >> """))
         
-        if choose > 5 or choose < 1:
-            print("Por favor, escolha uma opção válida.")
+        if choose > 6 or choose < 1:
+            print("\n\nPor favor, escolha uma opção válida.")
         else:
             if choose < 3:
                 column = str(input("\n\n >> Digite a coluna que deseja aplicar o método: "))
-                if choose == 1:
+                if column not in columns:
+                    print("\n Essa coluna não exite!")
+                elif choose == 1:
                     graph.shapiro_text(column)
                 elif choose == 2:
                     graph.shapiro_plot(column)
             elif choose > 2:
-                x = str(input("\n\n >> Digite a coluna que será o X: "))
-                y = str(input("\n >> Digite a coluna que será o Y: "))
-                if choose == 3:
+                x = str(input("\n>> Digite a coluna que será o X: "))
+                y = str(input(">> Digite a coluna que será o Y: "))
+                if(x not in columns or y not in columns):
+                    print("\n Coluna inexistente!")
+                elif choose == 3:
                     graph.mannwhitneyu(x, y)
                 elif choose == 4:
-                    graph.pearson(x, y)
+                    graph.mannwhitneyu_histogram(x, y)
                 elif choose == 5:
+                    graph.pearson(x, y)
+                elif choose == 6:
                     graph.spearman(x, y)
         
-        ex = str(input("\n\n - Deseja realizar outra operação? (S/n):"))
+        ex = str(input(" - Deseja realizar outra operação? (S/n):"))
         if(ex == 'n' or ex == 'N'):
             exit()
                 
