@@ -6,6 +6,7 @@ from scipy.stats import shapiro, probplot, spearmanr, mannwhitneyu
 from sklearn.preprocessing import PowerTransformer
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
+from datetime import datetime
 
 class Graphs:
 
@@ -128,8 +129,9 @@ class Graphs:
         # Imprime o resultado do teste Shapiro-Wilk
         print('Estatística de teste:', stat)
         print('Valor p:', p)
-        plt.text(0, -0.25, "Estatística do teste: {}\nValor-p: {}".format(stat, p),
+        plt.text(0, -12, "Estatística do teste: {}\nValor-p: {}".format(stat, p),
                 bbox=dict(facecolor='red', alpha=0.5))
+        plt.savefig('../figures/{}_shapiro_{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column))
         plt.show()
     
     # Mann-Whitney U
@@ -145,12 +147,14 @@ class Graphs:
         plt.scatter(x, [0] * len(x), alpha=0.5, label=column_x)
         plt.scatter(y, [1] * len(y), alpha=0.5, label=column_y)
         plt.legend(loc="upper right")
+        plt.xlabel(column_x)
+        plt.ylabel(column_y)
         plt.title(f"Gráfico de dispersão: {column_x} VS {column_y} (Mann-Whitney U)")
 
         # Imprimir o resultado do teste no gráfico
-        plt.text(0, -0.25, "Estatística do teste: {}\nValor-p: {}".format(stat, p),
+        plt.text(0, 0.25, "Estatística do teste: {}\nValor-p: {}".format(stat, p),
                 bbox=dict(facecolor='red', alpha=0.5))
-
+        plt.savefig('../figures/{}_mannwhitneyu_{}X{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column_x,column_y))
         plt.show()
 
     # Mann-Whitney U
@@ -167,12 +171,14 @@ class Graphs:
         plt.hist(x, alpha=0.5, label=column_x)
         plt.hist(y, alpha=0.5, label=column_y)
         plt.legend(loc="upper right")
+        plt.xlabel(column_x)
+        plt.ylabel(column_y)
         plt.title(f"Histograma das amostras {column_x} VS {column_y} (Mann-Whitney U)")
 
         # Imprimir o resultado do teste no gráfico
         plt.text(0.5, 20, "Estatística do teste: {}\nValor-p: {}".format(stat, p),
                 bbox=dict(facecolor='red', alpha=0.5))
-
+        plt.savefig('../figures/{}_mannwhitneyu_histogram_{}X{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column_x,column_y))
         plt.show()
 
     # Pearson
@@ -194,7 +200,7 @@ class Graphs:
         print("Coeficiente de correlação de Pearson:", corr_coef)
         plt.text(0, -0.25, "Coeficiente de correlação de Pearson: {}".format(corr_coef),
                 bbox=dict(facecolor='red', alpha=0.5))
-
+        plt.savefig('../figures/{}_pearson_{}X{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column_x,column_y))
         plt.show()
 
     # Spearman
@@ -216,7 +222,8 @@ class Graphs:
         print("Coeficiente de correlação de Spearman:", corr_coef)
         plt.text(0, -0.25, "Coeficiente de correlação de Spearman: {}".format(corr_coef),
         bbox=dict(facecolor='red', alpha=0.5))
-        
+        plt.savefig('../figures/{}_spearman_{}X{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column_x,column_y))
+        plt.show()
     # Gráfico de dispersão
     def scatter(self, x, y):
         column_x = x
@@ -228,7 +235,7 @@ class Graphs:
         plt.title(f'Gráfico de Dispersão: {column_x} VS {column_y}')
         plt.xlabel(column_x)
         plt.ylabel(column_y)
-
+        plt.savefig('../figures/{}_scatter_{}X{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column_x,column_y))
         plt.show()
 
 if __name__ == "__main__":
@@ -238,6 +245,7 @@ if __name__ == "__main__":
     columns = ["lines_edited","rounded_lines_edited","commits","rounded_commits","experience_in_days","rounded_experience_in_days","experience_in_hours","rounded_experience_in_hours","code_smells","rounded_code_smells","sonar_smells","rounded_sonar_smells"]
     
     while True:
+        print("\n\n--------------------------------------------------------------------------------")
         choose = int(input("""
             - Qual função você deseja acessar?
             1. Shapiro-Wilk (somente texto)
@@ -250,21 +258,47 @@ if __name__ == "__main__":
             
         >> """))
         
+        print(f"\n Colunas disponíveis: {columns} \n")
+        i = 0
+        for column in columns:
+            print(i," - ", column, '\n')
+            i += 1
+            
         if choose > 7 or choose < 1:
             print("\n\nPor favor, escolha uma opção válida.")
         else:
             if choose < 3:
-                column = str(input("\n\n >> Digite a coluna que deseja aplicar o método: "))
-                if column not in columns:
+                column = str(input("\n >> Digite a coluna que deseja aplicar o método (número ou nome): "))
+                
+                if(column.isdigit() and int(column) < len(columns)):
+                    if choose == 1:
+                        graph.shapiro_text(columns[int(column)])
+                    elif choose == 2:
+                        graph.shapiro_plot(columns[int(column)])
+                elif column not in columns:
                     print("\n Essa coluna não exite!")
                 elif choose == 1:
                     graph.shapiro_text(column)
                 elif choose == 2:
                     graph.shapiro_plot(column)
             elif choose > 2:
+                print(f"\n Colunas disponíveis: {columns}")
                 x = str(input("\n>> Digite a coluna que será o X: "))
                 y = str(input(">> Digite a coluna que será o Y: "))
-                if(x not in columns or y not in columns):
+                
+                if(x.isdigit() and y.isdigit() and int(x) < len(columns) and int(y) < len(columns)):
+                    if choose == 3:
+                        graph.mannwhitneyu(columns[int(x)], columns[int(y)])
+                    elif choose == 4:
+                        graph.mannwhitneyu_histogram(columns[int(x)], columns[int(y)])
+                    elif choose == 5:
+                        graph.pearson(columns[int(x)], columns[int(y)])
+                    elif choose == 6:
+                        graph.spearman(columns[int(x)], columns[int(y)])
+                    elif choose == 7:
+                        graph.scatter(columns[int(x)], columns[int(y)])
+                        
+                elif(x not in columns or y not in columns):
                     print("\n Coluna inexistente!")
                 elif choose == 3:
                     graph.mannwhitneyu(x, y)

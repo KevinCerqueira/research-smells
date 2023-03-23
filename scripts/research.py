@@ -5,21 +5,19 @@ import platform
 
 class Research:
 
-    conn_data_set = None
-    data_set = None
-
-    conn_local_db = None
-    local_db = None
-
     def __init__(self, fast: bool = False):
         # Path do script
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
         # Conectando ao banco de dados do https://github.com/clowee/The-Technical-Debt-Data_set/
         path_data_set = os.path.join(BASE_DIR, self.env("DATASET"))
-        self.conn_data_set = sqlite3.connect(path_data_set)
-        self.data_set = self.conn_data_set.cursor()
-        
+        conn_data_set = sqlite3.connect(path_data_set)
+        with sqlite3.connect('dataset.db') as db:
+        # conn_data_set = sqlite3.connect('dataset.db')
+            self.dataset = db.cursor()
+            # self.dataset.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name")
+            # print(self.dataset.fetchall())
+        # exit()
         # Conectando ao banco local
         path_local_db = os.path.join(BASE_DIR, self.env("RESEARCH_DB"))
         self.conn_local_db = sqlite3.connect(path_local_db)
@@ -44,7 +42,7 @@ class Research:
 
     # Fecha as conexões
     def close_connections(self):
-        self.data_set.close()
+        self.dataset.close()
         self.local_db.close()
 
     # Cria a tabela que é armazendo os dados caso não exista
@@ -103,9 +101,9 @@ class Research:
 
     # Insere todos os projetos e autores no banco de dados local
     def insert_authors_and_projects(self):
-        self.data_set.execute("SELECT project_id, author FROM git_commits")
+        self.dataset.execute("SELECT project_id, author FROM git_commits")
 
-        for result in self.data_set.fetchall():
+        for result in self.dataset.fetchall():
             project_id = result[0]
             author = result[1]
             # Inserindo os projetos e os autores na tabela que guarda as informações dos autores
@@ -127,7 +125,7 @@ class Research:
 
     # Lê o Data Set e grava no banco local a quantidade de sonar smells para cada dev
     def read_amout_sonar_smells_author(self):
-        self.data_set.execute("""
+        self.dataset.execute("""
             SELECT
                 COUNT(DISTINCT sonar_analysis.revision) AS amount_sonar_smells,
                 git_commits.project_id,
@@ -145,7 +143,42 @@ class Research:
             GROUP BY git_commits.author
         """)
 
-        for result in self.data_set.fetchall():
+        for result in self.dataset.fetchall():
+            print("Updating amout sonar smells to: ", result)
+            self.local_db.execute(
+                """
+                    UPDATE 
+                        author_information 
+                    SET 
+                        amount_sonar_smells = ?
+                    WHERE 
+                        project_id = ? 
+                        AND author = ?
+                """,
+                (result)
+            )
+        self.conn_local_db.commit()
+        
+    # Lê o Data Set e grava no banco local a quantidade de sonar smells para cada dev
+    def read_amout_sonar_smells_author_v2(self):
+        self.dataset.execute("""
+            SELECT
+                COUNT(DISTINCT si.issue_key) AS amount_sonar_smells,
+                gc.project_id,
+                gc.author
+            FROM 
+                git_commits AS gc
+            INNER JOIN 
+                sonar_analysis AS sa ON gc.commit_hash = sa.revision
+            INNER JOIN 
+                sonar_issues AS si ON sa.analysis_key = si.creation_analysis_key
+            WHERE
+                gc.merge = 'False' 
+                AND si.type = 'CODE_SMELL' 
+            GROUP BY gc.project_id, gc.author
+        """)
+
+        for result in self.dataset.fetchall():
             print("Updating amout sonar smells to: ", result)
             self.local_db.execute(
                 """
@@ -162,25 +195,24 @@ class Research:
         self.conn_local_db.commit()
         
     # Lê o Data Set e grava no banco local a quantidade de sonar smells para cada projeto
-    def read_amout_sonar_smells_project(self):
-        self.data_set.execute("""
+    def read_amout_sonar_smells_project_v2(self):
+        self.dataset.execute("""
             SELECT
-                COUNT(DISTINCT sonar_analysis.revision) AS amount_sonar_smells,
-                git_commits.project_id
-            FROM git_commits
-            INNER JOIN
-                git_commits_changes ON git_commits.commit_hash = git_commits_changes.commit_hash
+                COUNT(DISTINCT si.issue_key) AS amount_sonar_smells,
+                gc.project_id
+            FROM 
+                git_commits AS gc
             INNER JOIN 
-                sonar_analysis ON git_commits.commit_hash = sonar_analysis.revision
+                sonar_analysis AS sa ON gc.commit_hash = sa.revision
             INNER JOIN 
-                sonar_issues ON sonar_analysis.analysis_key = sonar_issues.creation_analysis_key
+                sonar_issues AS si ON sa.analysis_key = si.creation_analysis_key
             WHERE
-                git_commits.merge = 'False' 
-                AND sonar_issues.type = 'CODE_SMELL' 
-            GROUP BY git_commits.project_id
+                gc.merge = 'False' 
+                AND si.type = 'CODE_SMELL'  
+            GROUP BY gc.project_id
         """)
 
-        for result in self.data_set.fetchall():
+        for result in self.dataset.fetchall():
             print("Updating amout sonar smells to: ", result)
             self.local_db.execute(
                 """
@@ -197,7 +229,7 @@ class Research:
             
     # Lê o Data Set e grava no banco local a quantidade de code smells para cada dev
     def read_amout_code_smells_author(self):
-        self.data_set.execute("""
+        self.dataset.execute("""
             SELECT
                 COUNT(DISTINCT sonar_analysis.revision) AS amount_code_smells,
                 git_commits.project_id,
@@ -215,7 +247,42 @@ class Research:
             GROUP BY git_commits.author
         """)
 
-        for result in self.data_set.fetchall():
+        for result in self.dataset.fetchall():
+            print("Updating amout code smells to: ", result)
+            self.local_db.execute(
+                """
+                    UPDATE 
+                        author_information 
+                    SET 
+                        amount_code_smells = ?
+                    WHERE 
+                        project_id = ? 
+                        AND author = ?
+                """,
+                (result)
+            )
+        self.conn_local_db.commit()
+
+    # Lê o Data Set e grava no banco local a quantidade de code smells para cada dev
+    def read_amout_code_smells_author_v2(self):
+        self.dataset.execute("""
+            SELECT
+                COUNT(DISTINCT si.issue_key) AS amount_code_smells,
+                gc.project_id,
+                gc.author
+            FROM 
+                git_commits AS gc
+            INNER JOIN 
+                sonar_analysis AS sa ON gc.commit_hash = sa.revision
+            INNER JOIN 
+                sonar_issues AS si ON sa.analysis_key = si.creation_analysis_key
+            WHERE
+                gc.merge = 'False' 
+                AND si.rule LIKE 'code_smells:%' 
+            GROUP BY gc.project_id, gc.author
+        """)
+
+        for result in self.dataset.fetchall():
             print("Updating amout code smells to: ", result)
             self.local_db.execute(
                 """
@@ -233,8 +300,8 @@ class Research:
 
     # Lê o Data Set e grava no banco local a quantidade de code smells para cada projeto
     def read_amout_code_smells_project(self):
-        self.data_set.execute("""
-            SELECT
+        self.dataset.execute("""
+                    SELECT
                 COUNT(DISTINCT sonar_analysis.revision) AS amount_code_smells,
                 git_commits.project_id
             FROM git_commits
@@ -250,7 +317,40 @@ class Research:
             GROUP BY git_commits.project_id
         """)
 
-        for result in self.data_set.fetchall():
+        for result in self.dataset.fetchall():
+            print("Updating amout code smells to: ", result)
+            self.local_db.execute(
+                """
+                    UPDATE 
+                        project_information 
+                    SET 
+                        amount_code_smells = ?
+                    WHERE 
+                        project_id = ? 
+                """,
+                (result)
+            )
+        self.conn_local_db.commit()
+        
+    # Lê o Data Set e grava no banco local a quantidade de code smells para cada projeto
+    def read_amout_code_smells_project_v2(self):
+        self.dataset.execute("""
+            SELECT
+                COUNT(DISTINCT si.issue_key) AS amount_code_smells,
+                gc.project_id
+            FROM 
+                git_commits AS gc
+            INNER JOIN 
+                sonar_analysis AS sa ON gc.commit_hash = sa.revision
+            INNER JOIN 
+                sonar_issues AS si ON sa.analysis_key = si.creation_analysis_key
+            WHERE
+                gc.merge = 'False' 
+                AND si.rule LIKE 'code_smells:%' 
+            GROUP BY gc.project_id
+        """)
+
+        for result in self.dataset.fetchall():
             print("Updating amout code smells to: ", result)
             self.local_db.execute(
                 """
@@ -267,7 +367,7 @@ class Research:
 
     # Lê o Data Set e grava no banco local a quantidade de linhas editadas para cada dev
     def read_number_lines_edited_author(self):
-        self.data_set.execute("""
+        self.dataset.execute("""
             SELECT
                 (SUM(lines_added) + SUM(lines_removed)) as number_lines_edited,
                 git_commits.project_id,
@@ -277,10 +377,10 @@ class Research:
                 git_commits_changes ON git_commits.commit_hash = git_commits_changes.commit_hash
             WHERE
                 git_commits.merge = 'False' 
-            GROUP BY git_commits.author
+            GROUP BY git_commits.project_id, git_commits.author
         """)
 
-        for result in self.data_set.fetchall():
+        for result in self.dataset.fetchall():
             print("Updating number lines edited to: ", result)
             self.local_db.execute(
                 """
@@ -298,7 +398,7 @@ class Research:
 
     # Lê o Data Set e grava no banco local a quantidade de linhas editadas para cada projeto
     def read_number_lines_edited_project(self):
-        self.data_set.execute("""
+        self.dataset.execute("""
             SELECT
                 (SUM(gcc.lines_added) + SUM(gcc.lines_removed)) as number_lines_edited,
                 gcc.project_id
@@ -311,7 +411,7 @@ class Research:
             GROUP BY gcc.project_id
         """)
 
-        for result in self.data_set.fetchall():
+        for result in self.dataset.fetchall():
             print("Updating number lines edited to: ", result)
             self.local_db.execute(
                 """
@@ -328,7 +428,7 @@ class Research:
     
     # Pega o primeiro commit e o último de cada author em cada projeto e calcula algumas informações
     def calculate_author_infos(self):
-        self.data_set.execute("""
+        self.dataset.execute("""
             SELECT DISTINCT
                 project_id,
                 author,
@@ -342,7 +442,7 @@ class Research:
             GROUP BY project_id, author
         """)
 
-        for result in self.data_set.fetchall():
+        for result in self.dataset.fetchall():
             project_id = result[0]
             author = result[1]
             first_commit = result[2].replace('Z', '+00:00').replace('T', ' ')
@@ -382,7 +482,7 @@ class Research:
 
     # Pega o primeiro commit e o último de cada projeto e calcula a diferença
     def calculate_project_infos(self):
-        self.data_set.execute("""
+        self.dataset.execute("""
             SELECT DISTINCT
                 project_id,
                 MIN(author_date) as first_commit,
@@ -395,7 +495,7 @@ class Research:
             GROUP BY project_id
         """)
 
-        for result in self.data_set.fetchall():
+        for result in self.dataset.fetchall():
             project_id = result[0]
             first_commit = result[1].replace('Z', '+00:00').replace('T', ' ')
             last_commit = result[2].replace('Z', '+00:00').replace('T', ' ')
@@ -680,6 +780,12 @@ class Research:
 if __name__ == "__main__":
     research = Research(fast=True)
     
+    research.read_amout_sonar_smells_author_v2()
+    research.read_amout_sonar_smells_project_v2()
+    
+    research.read_amout_code_smells_author_v2()
+    research.read_amout_code_smells_project_v2()
+    
     # research.read_amout_sonar_smells_author()
     # research.read_amout_sonar_smells_project()
     
@@ -689,12 +795,12 @@ if __name__ == "__main__":
     # research.calculate_author_infos()
     # research.calculate_project_infos()
 
-    # research.read_number_lines_edited_author()
-    # research.read_number_lines_edited_project()
+    research.read_number_lines_edited_author()
+    research.read_number_lines_edited_project()
     
     # research.delete_null_authors()
     
-    # research.percentage_lines_edited()
+    research.percentage_lines_edited()
     # research.percentage_commits()
     # research.percentage_experience()
     research.percentage_smells()
