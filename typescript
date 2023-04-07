@@ -1,0 +1,596 @@
+Script started on 2023-03-30 12:45:19-03:00 [TERM="xterm-256color" TTY="/dev/pts/18" COLUMNS="229" LINES="12"]
+]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells[00m$ cl
+[H[2J[3J]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells[00m$ script[Kspy[K[K[Kpython3 graf[Kp[K[K[K[K[K[K[K[K[K[K[K[Kcd scripts/
+]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ cl
+[H[2J[3J]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ python3 graphs.py 
+
+
+--------------------------------------------------------------------------------
+
+            - Qual função você deseja acessar?
+            1. Shapiro-Wilk (somente texto)
+            2. Shapiro-Wilk
+            3. Mann-Whitney U
+            4. Mann-Whitney U (histograma)
+            5. Pearson
+            6. Spearman
+            7. Dispersão comum
+            8. Todos (coeficiente e p-value)
+            
+        >> 8
+
+ Colunas disponíveis: 
+
+0  -  lines_edited 
+
+1  -  rounded_lines_edited 
+
+2  -  commits 
+
+3  -  rounded_commits 
+
+4  -  experience_in_days 
+
+5  -  rounded_experience_in_days 
+
+6  -  experience_in_hours 
+
+7  -  rounded_experience_in_hours 
+
+8  -  code_smells 
+
+9  -  rounded_code_smells 
+
+10  -  sonar_smells 
+
+11  -  rounded_sonar_smells 
+
+
+ coeficiente,p_value,coluna_x,coluna_y
+Traceback (most recent call last):
+  File "graphs.py", line 279, in <module>
+    print(f"{coef},{p_value},{x},{y}")
+NameError: name 'coef' is not defined
+]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ cl
+[H[2J[3J]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ clpython3 graphs.py 
+
+
+--------------------------------------------------------------------------------
+
+            - Qual função você deseja acessar?
+            1. Shapiro-Wilk (somente texto)
+            2. Shapiro-Wilk
+            3. Mann-Whitney U
+            4. Mann-Whitney U (histograma)
+            5. Pearson
+            6. Spearman
+            7. Dispersão comum
+            8. Todos (coeficiente e p-value)
+            
+        >> 8
+
+ Colunas disponíveis: 
+
+0  -  lines_edited 
+
+1  -  rounded_lines_edited 
+
+2  -  commits 
+
+3  -  rounded_commits 
+
+4  -  experience_in_days 
+
+5  -  rounded_experience_in_days 
+
+6  -  experience_in_hours 
+
+7  -  rounded_experience_in_hours 
+
+8  -  code_smells 
+
+9  -  rounded_code_smells 
+
+10  -  sonar_smells 
+
+11  -  rounded_sonar_smells 
+
+
+ coeficiente,p_value,coluna_x,coluna_y
+2796305.5,3.3038671310624253e-22,rounded_lines_edited,lines_edited
+Traceback (most recent call last):
+  File "graphs.py", line 281, in <module>
+    coef, p_value = graph.pearson(x, y)
+  File "graphs.py", line 192, in pearson
+    corr_coef, p_value = np.corrcoef(x, y)[0,1]
+TypeError: cannot unpack non-iterable numpy.float64 object
+]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ cl
+[H[2J[3J]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ clpython3 graphs.py 
+
+
+--------------------------------------------------------------------------------
+
+            - Qual função você deseja acessar?
+            1. Shapiro-Wilk (somente texto)
+            2. Shapiro-Wilk
+            3. Mann-Whitney U
+            4. Mann-Whitney U (histograma)
+            5. Pearson
+            6. Spearman
+            7. Dispersão comum
+            8. Todos (coeficiente e p-value)
+            
+        >> 8
+
+ Colunas disponíveis: 
+
+0  -  lines_edited 
+
+1  -  rounded_lines_edited 
+
+2  -  commits 
+
+3  -  rounded_commits 
+
+4  -  experience_in_days 
+
+5  -  rounded_experience_in_days 
+
+6  -  experience_in_hours 
+
+7  -  rounded_experience_in_hours 
+
+8  -  code_smells 
+
+9  -  rounded_code_smells 
+
+10  -  sonar_smells 
+
+11  -  rounded_sonar_smells 
+
+
+ coeficiente,p_value,coluna_x,coluna_y
+2796305.5,3.3038671310624253e-22,rounded_lines_edited,lines_edited
+Traceback (most recent call last):
+  File "graphs.py", line 284, in <module>
+    coef, p_value = graph.pearson(x, y, False)
+  File "graphs.py", line 193, in pearson
+    corr_coef, p_value = np.corrcoef(x, y)[0,1]
+TypeError: cannot unpack non-iterable numpy.float64 object
+]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ python3 graphs.py 
+
+
+--------------------------------------------------------------------------------
+
+            - Qual função você deseja acessar?
+            1. Shapiro-Wilk (somente texto)
+            2. Shapiro-Wilk
+            3. Mann-Whitney U
+            4. Mann-Whitney U (histograma)
+            5. Pearson
+            6. Spearman
+            7. Dispersão comum
+            8. Todos (coeficiente e p-value)
+            
+        >> 8
+
+ Colunas disponíveis: 
+
+0  -  lines_edited 
+
+1  -  rounded_lines_edited 
+
+2  -  commits 
+
+3  -  rounded_commits 
+
+4  -  experience_in_days 
+
+5  -  rounded_experience_in_days 
+
+6  -  experience_in_hours 
+
+7  -  rounded_experience_in_hours 
+
+8  -  code_smells 
+
+9  -  rounded_code_smells 
+
+10  -  sonar_smells 
+
+11  -  rounded_sonar_smells 
+
+
+ coeficiente,p_value,coluna_x,coluna_y
+2796305.5,3.3038671310624253e-22,rounded_lines_edited,lines_edited
+Traceback (most recent call last):
+  File "graphs.py", line 284, in <module>
+    coef, p_value = graph.pearson(x, y, False)
+  File "graphs.py", line 193, in pearson
+    corr_coef, p_value = np.pearsonr(x, y)[0,1]
+  File "/usr/local/lib/python3.8/dist-packages/numpy/__init__.py", line 311, in __getattr__
+    raise AttributeError("module {!r} has no attribute "
+AttributeError: module 'numpy' has no attribute 'pearsonr'
+]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ cl
+[H[2J[3J]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ clpython3 graphs.py 
+
+
+--------------------------------------------------------------------------------
+
+            - Qual função você deseja acessar?
+            1. Shapiro-Wilk (somente texto)
+            2. Shapiro-Wilk
+            3. Mann-Whitney U
+            4. Mann-Whitney U (histograma)
+            5. Pearson
+            6. Spearman
+            7. Dispersão comum
+            8. Todos (coeficiente e p-value)
+            
+        >> 8
+
+ Colunas disponíveis: 
+
+0  -  lines_edited 
+
+1  -  rounded_lines_edited 
+
+2  -  commits 
+
+3  -  rounded_commits 
+
+4  -  experience_in_days 
+
+5  -  rounded_experience_in_days 
+
+6  -  experience_in_hours 
+
+7  -  rounded_experience_in_hours 
+
+8  -  code_smells 
+
+9  -  rounded_code_smells 
+
+10  -  sonar_smells 
+
+11  -  rounded_sonar_smells 
+
+
+ coeficiente,p_value,coluna_x,coluna_y
+2796305.5,3.3038671310624253e-22,rounded_lines_edited,lines_edited
+Traceback (most recent call last):
+  File "graphs.py", line 284, in <module>
+    coef, p_value = graph.pearson(x, y, False)
+  File "graphs.py", line 193, in pearson
+    corr_coef, p_value = np.pearsonr(x, y)[0,1]
+  File "/usr/local/lib/python3.8/dist-packages/numpy/__init__.py", line 311, in __getattr__
+    raise AttributeError("module {!r} has no attribute "
+AttributeError: module 'numpy' has no attribute 'pearsonr'
+]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ cl
+[H[2J[3J]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ clpython3 graphs.py 
+
+
+--------------------------------------------------------------------------------
+
+            - Qual função você deseja acessar?
+            1. Shapiro-Wilk (somente texto)
+            2. Shapiro-Wilk
+            3. Mann-Whitney U
+            4. Mann-Whitney U (histograma)
+            5. Pearson
+            6. Spearman
+            7. Dispersão comum
+            8. Todos (coeficiente e p-value)
+            
+        >> 8
+
+ Colunas disponíveis: 
+
+0  -  lines_edited 
+
+1  -  rounded_lines_edited 
+
+2  -  commits 
+
+3  -  rounded_commits 
+
+4  -  experience_in_days 
+
+5  -  rounded_experience_in_days 
+
+6  -  experience_in_hours 
+
+7  -  rounded_experience_in_hours 
+
+8  -  code_smells 
+
+9  -  rounded_code_smells 
+
+10  -  sonar_smells 
+
+11  -  rounded_sonar_smells 
+
+
+ coeficiente,p_value,coluna_x,coluna_y
+2796305.5,3.3038671310624253e-22,rounded_lines_edited,lines_edited
+Traceback (most recent call last):
+  File "graphs.py", line 284, in <module>
+    coef, p_value = graph.pearson(x, y, False)
+  File "graphs.py", line 193, in pearson
+    corr_coef, p_value = pearsonr(x, y)[0,1]
+TypeError: tuple indices must be integers or slices, not tuple
+]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ cl
+[H[2J[3J]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ clpython3 graphs.py 
+
+
+--------------------------------------------------------------------------------
+
+            - Qual função você deseja acessar?
+            1. Shapiro-Wilk (somente texto)
+            2. Shapiro-Wilk
+            3. Mann-Whitney U
+            4. Mann-Whitney U (histograma)
+            5. Pearson
+            6. Spearman
+            7. Dispersão comum
+            8. Todos (coeficiente e p-value)
+            
+        >> 8
+
+ Colunas disponíveis: 
+
+0  -  lines_edited 
+
+1  -  rounded_lines_edited 
+
+2  -  commits 
+
+3  -  rounded_commits 
+
+4  -  experience_in_days 
+
+5  -  rounded_experience_in_days 
+
+6  -  experience_in_hours 
+
+7  -  rounded_experience_in_hours 
+
+8  -  code_smells 
+
+9  -  rounded_code_smells 
+
+10  -  sonar_smells 
+
+11  -  rounded_sonar_smells 
+
+
+ coeficiente,p_value,coluna_x,coluna_y
+2796305.5,3.3038671310624253e-22,rounded_lines_edited,lines_edited
+Coeficiente de correlação de Pearson: 0.9999998906742928
+0.9999998906742928,0.0,rounded_lines_edited,lines_edited
+Coeficiente de correlação de Spearman: 0.9639534830989848
+p-value 0.0
+0.9639534830989848,0.0,rounded_lines_edited,lines_edited
+4556300.0,5.589162166578522e-121,commits,lines_edited
+Coeficiente de correlação de Pearson: 0.886654921695947
+0.886654921695947,0.0,commits,lines_edited
+Coeficiente de correlação de Spearman: 0.8290318843090693
+p-value 0.0
+0.8290318843090693,0.0,commits,lines_edited
+4542983.0,1.7260226785509827e-119,commits,rounded_lines_edited
+Coeficiente de correlação de Pearson: 0.8866609342494207
+0.8866609342494207,0.0,commits,rounded_lines_edited
+Coeficiente de correlação de Spearman: 0.803836514082583
+p-value 0.0
+0.803836514082583,0.0,commits,rounded_lines_edited
+4577559.5,3.899702129093401e-125,rounded_commits,lines_edited
+Coeficiente de correlação de Pearson: 0.8866504550395043
+0.8866504550395043,0.0,rounded_commits,lines_edited
+Coeficiente de correlação de Spearman: 0.8286462329149082
+p-value 0.0
+0.8286462329149082,0.0,rounded_commits,lines_edited
+4566838.5,2.16948053909608e-124,rounded_commits,rounded_lines_edited
+Coeficiente de correlação de Pearson: 0.8866564620174284
+0.8866564620174284,0.0,rounded_commits,rounded_lines_edited
+Coeficiente de correlação de Spearman: 0.8037905648675138
+p-value 0.0
+0.8037905648675138,0.0,rounded_commits,rounded_lines_edited
+3360763.0,0.3420904842714553,rounded_commits,commits
+Coeficiente de correlação de Pearson: 0.9999998186964307
+0.9999998186964307,0.0,rounded_commits,commits
+Coeficiente de correlação de Spearman: 0.9980012639230107
+p-value 0.0
+0.9980012639230107,0.0,rounded_commits,commits
+3277707.0,0.5396618135039222,experience_in_days,lines_edited
+Coeficiente de correlação de Pearson: 0.4924275635585083
+0.4924275635585083,2.8939007272316252e-157,experience_in_days,lines_edited
+Coeficiente de correlação de Spearman: 0.6850967821717593
+p-value 0.0
+0.6850967821717593,0.0,experience_in_days,lines_edited
+3885017.0,1.845144806493738e-29,experience_in_days,rounded_lines_edited
+Coeficiente de correlação de Pearson: 0.49244522555867853
+0.49244522555867853,2.8096229412582525e-157,experience_in_days,rounded_lines_edited
+Coeficiente de correlação de Spearman: 0.6795103291092068
+p-value 0.0
+0.6795103291092068,0.0,experience_in_days,rounded_lines_edited
+3183719.0,0.016927886564525756,experience_in_days,commits
+Coeficiente de correlação de Pearson: 0.5431308937747346
+0.5431308937747346,2.0684444578938464e-197,experience_in_days,commits
+Coeficiente de correlação de Spearman: 0.7496458249458007
+p-value 0.0
+0.7496458249458007,0.0,experience_in_days,commits
+3187383.0,0.02033754714011255,experience_in_days,rounded_commits
+Coeficiente de correlação de Pearson: 0.5430734032256943
+0.5430734032256943,2.3181307375229184e-197,experience_in_days,rounded_commits
+Coeficiente de correlação de Spearman: 0.7414725063780176
+p-value 0.0
+0.7414725063780176,0.0,experience_in_days,rounded_commits
+3277080.0,0.5318577707513314,rounded_experience_in_days,lines_edited
+Coeficiente de correlação de Pearson: 0.4924249700231853
+0.4924249700231853,2.90648695194818e-157,rounded_experience_in_days,lines_edited
+Coeficiente de correlação de Spearman: 0.685098350709047
+p-value 0.0
+0.685098350709047,0.0,rounded_experience_in_days,lines_edited
+3884054.5,2.28150716096408e-29,rounded_experience_in_days,rounded_lines_edited
+Coeficiente de correlação de Pearson: 0.49244263619206513
+0.49244263619206513,2.821823657085176e-157,rounded_experience_in_days,rounded_lines_edited
+Coeficiente de correlação de Spearman: 0.6795178320684793
+p-value 0.0
+0.6795178320684793,0.0,rounded_experience_in_days,rounded_lines_edited
+3182851.0,0.016187296237704613,rounded_experience_in_days,commits
+Coeficiente de correlação de Pearson: 0.5431300667989332
+0.5431300667989332,2.071838416997532e-197,rounded_experience_in_days,commits
+Coeficiente de correlação de Spearman: 0.7496394856679153
+p-value 0.0
+0.7496394856679153,0.0,rounded_experience_in_days,commits
+3188223.0,0.02120712442542734,rounded_experience_in_days,rounded_commits
+Coeficiente de correlação de Pearson: 0.5430725754980186
+0.5430725754980186,2.3219371099392194e-197,rounded_experience_in_days,rounded_commits
+Coeficiente de correlação de Spearman: 0.7414646624428864
+p-value 0.0
+0.7414646624428864,0.0,rounded_experience_in_days,rounded_commits
+3310185.0,0.9996842619417782,rounded_experience_in_days,experience_in_days
+Coeficiente de correlação de Pearson: 0.9999999878264176
+0.9999999878264176,0.0,rounded_experience_in_days,experience_in_days
+Coeficiente de correlação de Spearman: 0.9999996679571599
+p-value 0.0
+0.9999996679571599,0.0,rounded_experience_in_days,experience_in_days
+3343544.0,0.5289535057610806,experience_in_hours,lines_edited
+Coeficiente de correlação de Pearson: 0.4923884783456027
+0.4923884783456027,3.089481014309487e-157,experience_in_hours,lines_edited
+Coeficiente de correlação de Spearman: 0.702114716868676
+p-value 0.0
+0.702114716868676,0.0,experience_in_hours,lines_edited
+3955697.0,3.0671576988604745e-36,experience_in_hours,rounded_lines_edited
+Coeficiente de correlação de Pearson: 0.49240614631220314
+0.49240614631220314,2.999489004383319e-157,experience_in_hours,rounded_lines_edited
+Coeficiente de correlação de Spearman: 0.6925019927656331
+p-value 0.0
+0.6925019927656331,0.0,experience_in_hours,rounded_lines_edited
+3199859.0,0.03753627775343605,experience_in_hours,commits
+Coeficiente de correlação de Pearson: 0.5430944383951781
+0.5430944383951781,2.2234619351875863e-197,experience_in_hours,commits
+Coeficiente de correlação de Spearman: 0.7703958307391414
+p-value 0.0
+0.7703958307391414,0.0,experience_in_hours,commits
+3202164.0,0.041627497471087585,experience_in_hours,rounded_commits
+Coeficiente de correlação de Pearson: 0.5430368988844411
+0.5430368988844411,2.4920675499984878e-197,experience_in_hours,rounded_commits
+Coeficiente de correlação de Spearman: 0.7606010545479762
+p-value 0.0
+0.7606010545479762,0.0,experience_in_hours,rounded_commits
+3382626.0,0.15486054741509883,experience_in_hours,experience_in_days
+Coeficiente de correlação de Pearson: 0.999999908925397
+0.999999908925397,0.0,experience_in_hours,experience_in_days
+Coeficiente de correlação de Spearman: 0.9853760499042493
+p-value 0.0
+0.9853760499042493,0.0,experience_in_hours,experience_in_days
+3382557.0,0.1552538400906337,experience_in_hours,rounded_experience_in_days
+Coeficiente de correlação de Pearson: 0.999999896228727
+0.999999896228727,0.0,experience_in_hours,rounded_experience_in_days
+Coeficiente de correlação de Spearman: 0.9853759488138011
+p-value 0.0
+0.9853759488138011,0.0,experience_in_hours,rounded_experience_in_days
+3317715.5,0.8865947900599268,rounded_experience_in_hours,lines_edited
+Coeficiente de correlação de Pearson: 0.49238408433971953
+0.49238408433971953,3.1122772298972325e-157,rounded_experience_in_hours,lines_edited
+Coeficiente de correlação de Spearman: 0.6913215936135575
+p-value 0.0
+0.6913215936135575,0.0,rounded_experience_in_hours,lines_edited
+^CTraceback (most recent call last):
+  File "graphs.py", line 282, in <module>
+    coef, p_value = graph.mannwhitneyu(x, y, False)
+  File "graphs.py", line 157, in mannwhitneyu
+    plt.savefig('../figures/{}_mannwhitneyu_{}X{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column_x,column_y))
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/pyplot.py", line 1023, in savefig
+    res = fig.savefig(*args, **kwargs)
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/figure.py", line 3343, in savefig
+    self.canvas.print_figure(fname, **kwargs)
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/backend_bases.py", line 2366, in print_figure
+    result = print_method(
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/backend_bases.py", line 2232, in <lambda>
+    print_method = functools.wraps(meth)(lambda *args, **kwargs: meth(
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/backends/backend_agg.py", line 509, in print_png
+    self._print_pil(filename_or_obj, "png", pil_kwargs, metadata)
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/backends/backend_agg.py", line 457, in _print_pil
+    FigureCanvasAgg.draw(self)
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/backends/backend_agg.py", line 400, in draw
+    self.figure.draw(self.renderer)
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/artist.py", line 95, in draw_wrapper
+    result = draw(artist, renderer, *args, **kwargs)
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/artist.py", line 72, in draw_wrapper
+    return draw(artist, renderer)
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/figure.py", line 3140, in draw
+    mimage._draw_list_compositing_images(
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/image.py", line 131, in _draw_list_compositing_images
+    a.draw(renderer)
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/artist.py", line 72, in draw_wrapper
+    return draw(artist, renderer)
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/axes/_base.py", line 3064, in draw
+    mimage._draw_list_compositing_images(
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/image.py", line 131, in _draw_list_compositing_images
+    a.draw(renderer)
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/artist.py", line 72, in draw_wrapper
+    return draw(artist, renderer)
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/collections.py", line 972, in draw
+    super().draw(renderer)
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/artist.py", line 72, in draw_wrapper
+    return draw(artist, renderer)
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/collections.py", line 388, in draw
+    extents = paths[0].get_extents(combined_transform)
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/path.py", line 635, in get_extents
+    _, dzeros = curve.axis_aligned_extrema()
+  File "/home/kevin.cerqueira/.local/lib/python3.8/site-packages/matplotlib/bezier.py", line 299, in axis_aligned_extrema
+    r = np.roots(pi[::-1])
+  File "<__array_function__ internals>", line 180, in roots
+  File "/usr/local/lib/python3.8/dist-packages/numpy/lib/polynomial.py", line 233, in roots
+    non_zero = NX.nonzero(NX.ravel(p))[0]
+  File "<__array_function__ internals>", line 180, in nonzero
+  File "/usr/local/lib/python3.8/dist-packages/numpy/core/fromnumeric.py", line 1958, in nonzero
+    return _wrapfunc(a, 'nonzero')
+  File "/usr/local/lib/python3.8/dist-packages/numpy/core/fromnumeric.py", line 57, in _wrapfunc
+    return bound(*args, **kwds)
+KeyboardInterrupt
+
+]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ cl
+[H[2J[3J]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ clpython3 graphs.py 
+
+
+--------------------------------------------------------------------------------
+
+            - Qual função você deseja acessar?
+            1. Shapiro-Wilk (somente texto)
+            2. Shapiro-Wilk
+            3. Mann-Whitney U
+            4. Mann-Whitney U (histograma)
+            5. Pearson
+            6. Spearman
+            7. Dispersão comum
+            8. Todos (coeficiente e p-value)
+            
+        >> ^CTraceback (most recent call last):
+  File "graphs.py", line 255, in <module>
+    choose = int(input("""
+KeyboardInterrupt
+
+]0;kevin.cerqueira@cp-jvl-l0153: ~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[01;32mkevin.cerqueira@cp-jvl-l0153[00m:[01;34m~/Documentos/UEFS2023/TCC/pesquisa-smells/scripts[00m$ python3 graphs.py 
+
+
+--------------------------------------------------------------------------------
+
+            - Qual função você deseja acessar?
+            1. Shapiro-Wilk (somente texto)
+            2. Shapiro-Wilk
+            3. Mann-Whitney U
+            4. Mann-Whitney U (histograma)
+            5. Pearson
+            6. Spearman
+            7. Dispersão comum
+            8. Todos (coeficiente e p-value)
+            
+        >> ^CTraceback (most recent call last):
+  File "graphs.py", line 257, in <module>
+    choose = int(input("""
+KeyboardInterrupt
+
+]0;kevin.cerqu

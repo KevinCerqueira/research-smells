@@ -2,7 +2,7 @@ import os
 import sqlite3
 import platform
 import numpy as np
-from scipy.stats import shapiro, probplot, spearmanr, mannwhitneyu
+from scipy.stats import shapiro, probplot, spearmanr, mannwhitneyu, pearsonr
 from sklearn.preprocessing import PowerTransformer
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
@@ -133,9 +133,9 @@ class Graphs:
                 bbox=dict(facecolor='red', alpha=0.5))
         plt.savefig('../figures/{}_shapiro_{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column))
         plt.show()
-    
+        return (stat, p)
     # Mann-Whitney U
-    def mannwhitneyu(self, x, y):
+    def mannwhitneyu(self, x, y, plot=True):
         column_x = x
         column_y = y
         x, y = self.get_columns(x, y)
@@ -143,26 +143,28 @@ class Graphs:
         # Realizar o teste de Mann-Whitney U
         stat, p = mannwhitneyu(x, y)
 
-        # Plotar os pontos das duas amostras em um gráfico de dispersão
-        plt.scatter(x, [0] * len(x), alpha=0.5, label=column_x)
-        plt.scatter(y, [1] * len(y), alpha=0.5, label=column_y)
-        plt.legend(loc="upper right")
-        plt.xlabel(column_x)
-        plt.ylabel(column_y)
-        plt.title(f"Gráfico de dispersão: {column_x} VS {column_y} (Mann-Whitney U)")
+        if(plot):
+            # Plotar os pontos das duas amostras em um gráfico de dispersão
+            plt.scatter(x, [0] * len(x), alpha=0.5, label=column_x)
+            plt.scatter(y, [1] * len(y), alpha=0.5, label=column_y)
+            plt.legend(loc="upper right")
+            plt.xlabel(column_x)
+            plt.ylabel(column_y)
+            plt.title(f"Gráfico de dispersão: {column_x} VS {column_y} (Mann-Whitney U)")
 
-        # Imprimir o resultado do teste no gráfico
-        plt.text(0, 0.25, "Estatística do teste: {}\nValor-p: {}".format(stat, p),
-                bbox=dict(facecolor='red', alpha=0.5))
-        plt.savefig('../figures/{}_mannwhitneyu_{}X{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column_x,column_y))
-        plt.show()
+            # Imprimir o resultado do teste no gráfico
+            plt.text(0, 0.25, "Estatística do teste: {}\nValor-p: {}".format(stat, p),
+                    bbox=dict(facecolor='red', alpha=0.5))
+            plt.savefig('../figures/{}_mannwhitneyu_{}X{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column_x,column_y))
+            plt.show()
+
+        return (stat, p)
 
     # Mann-Whitney U
     def mannwhitneyu_histogram(self, x, y):
         column_x = x
         column_y = y
         x, y = self.get_columns(x, y)
-
 
         # Realizar o teste de Mann-Whitney U
         stat, p = mannwhitneyu(x, y)
@@ -182,49 +184,57 @@ class Graphs:
         plt.show()
 
     # Pearson
-    def pearson(self, x, y):
+    def pearson(self, x, y, plot=True):
         column_x = x
         column_y = y
         
         x, y = self.get_columns(x, y)
+
         # Calcular o coeficiente de correlação de Pearson
-        corr_coef = np.corrcoef(x, y)[0,1]
+        corr_coef, p_value = pearsonr(x, y)
 
-        # Plotar o gráfico de dispersão
-        plt.scatter(x, y)
-        plt.title(f'Gráfico de Dispersão: {column_x} VS {column_y} (Pearson)')
-        plt.xlabel(column_x)
-        plt.ylabel(column_y)
+        if(plot):
+            # Plotar o gráfico de dispersão
+            plt.scatter(x, y)
+            plt.title(f'Gráfico de Dispersão: {column_x} VS {column_y} (Pearson)')
+            plt.xlabel(column_x)
+            plt.ylabel(column_y)
 
-        # Imprimir o coeficiente de correlação de Pearson
-        print("Coeficiente de correlação de Pearson:", corr_coef)
-        plt.text(0, -0.25, "Coeficiente de correlação de Pearson: {}".format(corr_coef),
-                bbox=dict(facecolor='red', alpha=0.5))
-        plt.savefig('../figures/{}_pearson_{}X{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column_x,column_y))
-        plt.show()
+            # Imprimir o coeficiente de correlação de Pearson
+            print("Coeficiente de correlação de Pearson:", corr_coef)
+            plt.text(0, -0.25, "Coeficiente de correlação de Pearson: {}".format(corr_coef),
+                    bbox=dict(facecolor='red', alpha=0.5))
+            plt.savefig('../figures/{}_pearson_{}X{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column_x,column_y))
+        
+            plt.show()
+        return (corr_coef, p_value)
 
     # Spearman
-    def spearman(self, x, y):
+    def spearman(self, x, y, plot=True):
         column_x = x
         column_y = y
         x, y = self.get_columns(x, y)
         
         # Calcular o coeficiente de correlação de Spearman
         corr_coef, p_value = spearmanr(x, y)
+        if(plot):
+            # Plotar o gráfico de dispersão
+            plt.scatter(x, y)
+            plt.title(f'Gráfico de Dispersão: {column_x} VS {column_y} (Spearman)')
+            plt.xlabel(column_x)
+            plt.ylabel(column_y)
 
-        # Plotar o gráfico de dispersão
-        plt.scatter(x, y)
-        plt.title(f'Gráfico de Dispersão: {column_x} VS {column_y} (Spearman)')
-        plt.xlabel(column_x)
-        plt.ylabel(column_y)
+            # Imprimir o coeficiente de correlação de Spearman
+            print("Coeficiente de correlação de Spearman:", corr_coef)
+            print("p-value", p_value)
+            plt.text(0, -0.25, "Coeficiente de correlação de Spearman: {}".format(corr_coef),
+            bbox=dict(facecolor='red', alpha=0.5))
+            plt.savefig('../figures/{}_spearman_{}X{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column_x,column_y))
+        
+            plt.show()
+        return (corr_coef, p_value)
 
-        # Imprimir o coeficiente de correlação de Spearman
-        print("Coeficiente de correlação de Spearman:", corr_coef)
-        plt.text(0, -0.25, "Coeficiente de correlação de Spearman: {}".format(corr_coef),
-        bbox=dict(facecolor='red', alpha=0.5))
-        plt.savefig('../figures/{}_spearman_{}X{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column_x,column_y))
-        plt.show()
-    # Gráfico de dispersão
+    # Gráfico de dispersão normal
     def scatter(self, x, y):
         column_x = x
         column_y = y
@@ -242,8 +252,6 @@ if __name__ == "__main__":
     
     graph = Graphs()
     
-    columns = ["lines_edited","rounded_lines_edited","commits","rounded_commits","experience_in_days","rounded_experience_in_days","experience_in_hours","rounded_experience_in_hours","code_smells","rounded_code_smells","sonar_smells","rounded_sonar_smells"]
-    
     while True:
         print("\n\n--------------------------------------------------------------------------------")
         choose = int(input("""
@@ -255,18 +263,35 @@ if __name__ == "__main__":
             5. Pearson
             6. Spearman
             7. Dispersão comum
+            8. Todos (coeficiente e p-value)
             
         >> """))
         
-        print(f"\n Colunas disponíveis: {columns} \n")
+        print("\n Colunas disponíveis: \n")
+        columns_all = ["lines_edited","rounded_lines_edited","commits","rounded_commits","experience_in_days","rounded_experience_in_days","experience_in_hours","rounded_experience_in_hours","code_smells","rounded_code_smells","sonar_smells","rounded_sonar_smells"]
+        columns = ["lines_edited","commits","experience_in_days","experience_in_hours","code_smells","sonar_smells"]
+        
         i = 0
         for column in columns:
             print(i," - ", column, '\n')
             i += 1
-            
-        if choose > 7 or choose < 1:
+        
+        if choose > 7:
+            print("\nmetodo,coeficiente,p_value,coluna_x,coluna_y")
+            for x in range(len(columns)):
+                for y in range(x+1, len(columns)):
+                    if(x == y):
+                        break
+                    coef, p_value = graph.mannwhitneyu(columns[x], columns[y], False)
+                    print(f"Mann Whitney,{coef},{p_value},{columns[x]},{columns[y]}")
+                    coef, p_value = graph.pearson(columns[x], columns[y], False)
+                    print(f"Pearson,{coef},{p_value},{columns[x]},{columns[y]}")
+                    coef, p_value = graph.spearman(columns[x], columns[y], False)
+                    print(f"Spearman,{coef},{p_value},{columns[x]},{columns[y]}")
+        elif choose < 1:
             print("\n\nPor favor, escolha uma opção válida.")
         else:
+
             if choose < 3:
                 column = str(input("\n >> Digite a coluna que deseja aplicar o método (número ou nome): "))
                 
@@ -281,8 +306,8 @@ if __name__ == "__main__":
                     graph.shapiro_text(column)
                 elif choose == 2:
                     graph.shapiro_plot(column)
+
             elif choose > 2:
-                print(f"\n Colunas disponíveis: {columns}")
                 x = str(input("\n>> Digite a coluna que será o X: "))
                 y = str(input(">> Digite a coluna que será o Y: "))
                 
@@ -314,10 +339,3 @@ if __name__ == "__main__":
         ex = str(input(" - Deseja realizar outra operação? (S/n):"))
         if(ex == 'n' or ex == 'N'):
             exit()
-                
-                
-            
-    # graph.shapiro_plot("code_smells")
-    # graph.mannwhitneyu("lines_edited", "code_smells")
-    # graph.pearson("lines_edited", "code_smells")
-    # graph.spearman("lines_edited", "code_smells")
