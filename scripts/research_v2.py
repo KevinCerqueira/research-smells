@@ -5,39 +5,25 @@ import platform
 
 class Research:
 
-    def __init__(self, fast: bool = True):
+    def __init__(self, database, fast: bool = True):
         # Path do script
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
+        self.core_code_smell = database
         # Conectando ao banco de dados do https://github.com/clowee/The-Technical-Debt-Data_set/
         path_data_set = os.path.join(BASE_DIR, self.env("DATASET"))
         conn_data_set = sqlite3.connect(path_data_set)
         self.dataset = conn_data_set.cursor()
         
         # Conectando ao banco local
-        path_local_db = os.path.join(BASE_DIR, self.env("RESEARCH_DB"))
-        self.conn_local_db = sqlite3.connect(path_local_db)
+        path_local_db = os.path.join(BASE_DIR, database)
+        self.conn_local_db = sqlite3.connect(path_local_db + '_2_.sqlite')
         self.local_db = self.conn_local_db.cursor()
 
         # Caso deseje pular a etapa de verificação de leitura e gravação dos projetos e autores 
         if (not fast):
-            pass
-            # self.init_local_table()
-
-    # def env(self, var):
-    #     env = '\\.env'
-    #     if(platform.system() in ['Linux', 'Darwin']):
-    #         env = '/.env'
-            
-    #     with open(os.path.dirname(os.path.realpath(__file__)) + env, 'r', encoding='utf-8') as file_env:
-    #         line = file_env.readline()
-    #         while(line):
-    #             content = line.split('=')
-    #             if(content[0] == var):
-    #                 return content[1].replace('\n', '')
-    #             line = file_env.readline()
+            self.init_local_table(database)
     
-    def env(sefl, var):
+    def env(self, var):
         env = '\\.env'
         if(platform.system() in ['Linux', 'Darwin']):
             env = '/.env'
@@ -55,7 +41,7 @@ class Research:
         self.local_db.close()
 
     # Cria a tabela que é armazendo os dados caso não exista
-    def init_local_table(self):
+    def init_local_table(self, code_smell):
         self.local_db.execute("""
                 CREATE TABLE IF NOT EXISTS "author_information" (
                     "project_id"                      TEXT,
@@ -202,7 +188,7 @@ class Research:
 
     # Lê o Data Set e grava no banco local a quantidade de code smells para cada dev
     def read_amout_code_smells_author(self):
-        self.dataset.execute("""
+        self.dataset.execute(f"""
             SELECT
                 COUNT(DISTINCT si.issue_key) AS amount_code_smells,
                 gc.project_id,
@@ -215,7 +201,7 @@ class Research:
                 sonar_issues AS si ON sa.analysis_key = si.creation_analysis_key
             WHERE
                 gc.merge = 'False' 
-                AND si.rule LIKE 'code_smells:%' 
+                AND si.rule LIKE '{self.core_code_smell}' 
             GROUP BY gc.project_id, gc.author
         """)
 
@@ -249,7 +235,7 @@ class Research:
                 sonar_issues AS si ON sa.analysis_key = si.creation_analysis_key
             WHERE
                 gc.merge = 'False' 
-                AND si.rule LIKE 'code_smells:%' 
+                AND si.rule LIKE 'code_smells:%'
             GROUP BY gc.project_id
         """)
 
@@ -651,10 +637,11 @@ class Research:
             DELETE FROM 
                 author_percentage_information
             WHERE
+                code_smells is NULL OR (
                 lines_edited is NULL
                 AND commits is NULL
                 AND experience_in_days is NULL
-                AND experience_in_hours is NULL
+                AND experience_in_hours is NULL)
         """)
         self.conn_local_db.commit()
 
@@ -787,31 +774,37 @@ class Research:
         
 # Main do script
 if __name__ == "__main__":
-    research = Research(fast=True)
+    
+    code_smells = ['code_smells:antisingleton', 'code_smells:baseclass_abstract', 'code_smells:class_data_private', 'code_smells:complex_class', 'code_smells:lazy_class', 'code_smells:long_method', 'code_smells:long_parameter_list', 'code_smells:refused_parent_bequest', 'code_smells:many_field_attributes_not_complex', 'code_smells:spaghetti_code', 'code_smells:speculative_generality', 'code_smells:swiss_army_knife', 'code_smells:large_class']
+    
+    for smell in code_smells:
+        
+        research = Research(smell, fast=False)
     
     # research.read_amout_sonar_smells_author()
     # research.read_amout_sonar_smells_project()
     
-    # research.read_amout_code_smells_author()
-    # research.read_amout_code_smells_project()
+        research.read_amout_code_smells_author()
+        research.read_amout_code_smells_project()
 
-    # research.calculate_author_infos()
-    # research.calculate_project_infos()
+        research.calculate_author_infos()
+        research.calculate_project_infos()
 
-    # research.read_number_lines_edited_author()
-    # research.read_number_lines_edited_project()
+        research.read_number_lines_edited_author()
+        research.read_number_lines_edited_project()
     
-    # research.delete_null_authors()
+        research.delete_null_authors()
     
-    # research.percentage_lines_edited()
-    # research.percentage_commits()
-    # research.percentage_experience()
-    # research.percentage_smells()
+        research.percentage_lines_edited()
+        research.percentage_commits()
+        research.percentage_experience()
+        research.percentage_smells()
     
-    # research.delete_null_authors_percentage()
+        research.delete_null_authors_percentage()
+        
     # research.init_code_smells_table()
     # research.read_type_code_smell()
     # research.init_project_code_smells_table()
     # research.read_type_project_code_smell()
-    research.percentage_type_smell()
+    #research.percentage_type_smell()
     

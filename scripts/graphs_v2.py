@@ -10,12 +10,12 @@ from datetime import datetime
 
 class Graphs:
 
-    def __init__(self, fast: bool = False):
+    def __init__(self, smell):
         # Path do script
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         
         # Conectando ao banco local
-        path_local_db = os.path.join(BASE_DIR, self.env("RESEARCH_DB"))
+        path_local_db = os.path.join(BASE_DIR, smell + "_2_.sqlite")
         self.conn_local_db = sqlite3.connect(path_local_db)
         self.local_db = self.conn_local_db.cursor()
     
@@ -292,8 +292,18 @@ class Graphs:
 
 if __name__ == "__main__":
     
-    graph = Graphs()
     
+    
+    all_code_smells = ['code_smells:antisingleton', 'code_smells:baseclass_abstract', 'code_smells:class_data_private', 'code_smells:complex_class', 'code_smells:lazy_class', 'code_smells:long_method', 'code_smells:long_parameter_list', 'code_smells:refused_parent_bequest', 'code_smells:many_field_attributes_not_complex', 'code_smells:spaghetti_code', 'code_smells:speculative_generality', 'code_smells:swiss_army_knife', 'code_smells:large_class']
+    i = 0
+    for smell in all_code_smells:
+        print(i," - ", smell, '\n')
+        i += 1
+        
+    choose_smell = int(input("\n >> Escolha com qual smell você deseja trabalhar: "))
+    
+    smell_selected = all_code_smells[choose_smell]
+    graph = Graphs(smell=smell_selected) 
     while True:
         print("\n\n--------------------------------------------------------------------------------")
         choose = int(input("""
@@ -312,9 +322,9 @@ if __name__ == "__main__":
         >> """))
         
         print("\n Colunas disponíveis: \n")
-        columns_all = ["code_smells", "sonar_smells"]
+        columns_all = ["code_smells"]
         # columns_all = ["lines_edited","rounded_lines_edited","commits","rounded_commits","experience_in_days","rounded_experience_in_days","experience_in_hours","rounded_experience_in_hours","code_smells","rounded_code_smells","sonar_smells","rounded_sonar_smells"]
-        columns = ["lines_edited","commits","experience_in_days","experience_in_hours","code_smells", "sonar_smells"]
+        columns = ["lines_edited","commits","experience_in_days","experience_in_hours", "code_smells"]
         
         i = 0
         for column in columns:
