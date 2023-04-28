@@ -2,6 +2,7 @@ import os
 import sqlite3
 import platform
 import numpy as np
+import csv
 from scipy.stats import shapiro, probplot, spearmanr, mannwhitneyu, pearsonr
 # from sklearn.preprocessing import PowerTransformer
 import matplotlib.pyplot as plt
@@ -332,17 +333,22 @@ if __name__ == "__main__":
             i += 1
         
         if choose == 8:
-            print("\nmetodo,coeficiente,p_value,coluna_x,coluna_y")
-            for x in range(len(columns_all)):
-                for y in range(len(columns)):
-                    coef, p_value = graph.mannwhitneyu(columns_all[x], columns[y], False)
-                    print(f"Mann Whitney,{coef},{p_value},{columns_all[x]},{columns[y]}")
-                    
-                    coef, p_value = graph.pearson(columns_all[x], columns[y], False)
-                    print(f"Pearson,{coef},{p_value},{columns_all[x]},{columns[y]}")
-                    
-                    coef, p_value = graph.spearman(columns_all[x], columns[y], False)
-                    print(f"Spearman,{coef},{p_value},{columns_all[x]},{columns[y]}")
+            namecsv = datetime.now()
+            with open(f'todos_{namecsv}.csv', 'w') as csvfile:
+                print("\nmetodo,coeficiente,p_value,coluna_x,coluna_y")
+                csv.writer(csvfile, delimiter=',').writerow(["metodo","coeficiente","p_value","coluna_x","coluna_y"])
+                for x in range(len(columns_all)):
+                    for y in range(len(columns)):
+                            coef, p_value = graph.mannwhitneyu(columns_all[x], columns[y], False)
+                            print(f"Mann Whitney,{coef},{p_value},{columns_all[x]},{columns[y]}")
+                            csv.writer(csvfile, delimiter=',').writerow(["Mann Whitney",coef,p_value,columns_all[x],columns[y]])
+                            coef, p_value = graph.pearson(columns_all[x], columns[y], False)
+                            print(f"Pearson,{coef},{p_value},{columns_all[x]},{columns[y]}")
+                            csv.writer(csvfile, delimiter=',').writerow(["Pearson",coef,p_value,columns_all[x],columns[y]])
+                            coef, p_value = graph.spearman(columns_all[x], columns[y], False)
+                            print(f"Spearman,{coef},{p_value},{columns_all[x]},{columns[y]}")
+                            csv.writer(csvfile, delimiter=',').writerow(["Spearman",coef,p_value,columns_all[x],columns[y]])
+                            
                     
         elif choose < 0:
             print("\n\nPor favor, escolha uma opção válida.")

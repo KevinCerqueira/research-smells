@@ -43,7 +43,7 @@ class Graphs:
                 {column}
             FROM
                 author_percentage_information
-            WHERE {column} <> '0'
+            WHERE {column} <> '0' and {column} is not null
         """)
             
         array = []
@@ -67,6 +67,8 @@ class Graphs:
                     author_percentage_information
                 WHERE {x} <> '0'
                 AND {y} <> '0'
+                AND {x} is not NULL
+                AND {y} is not NULL
             """)
         
         x = []
@@ -229,10 +231,10 @@ class Graphs:
             plt.title(f'Gráfico de Dispersão: {column_x} VS {column_y} (Spearman)')
             plt.xlabel(column_x)
             plt.ylabel(column_y)
-
+            p_value_formatado = "{:.2e}".format(p_value)
             # Imprimir o coeficiente de correlação de Spearman
             print("Coeficiente de correlação de Spearman:", corr_coef)
-            print("p-value", p_value)
+            print("p-value", p_value_formatado)
             plt.text(0, -0.25, "Coeficiente de correlação de Spearman: {}".format(corr_coef),
             bbox=dict(facecolor='red', alpha=0.5))
             plt.savefig('../figures/{}_spearman_{}X{}.png'.format(datetime.now().strftime("%Y%m%d%H%M%S"),column_x,column_y))
