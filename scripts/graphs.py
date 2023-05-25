@@ -65,22 +65,19 @@ class Graphs:
                     {y}
                 FROM
                     author_percentage_information
-                WHERE {x} <> '0'
-                AND {y} <> '0'
-                AND {x} is not NULL
-                AND {y} is not NULL
             """)
-        
+
         x = []
         y = []
         for result in self.local_db.fetchall():
             column_x = 0
             column_y = 0
             
-            if(result[2] != None):
+            if(result[1] != None):
                 column_x = result[2]
-            if(result[3] != None):
+            if(result[2] != None):
                 column_y = result[3]
+                
 
             if(r):
                 column_x = round(column_x)
@@ -327,11 +324,11 @@ if __name__ == "__main__":
             print("\nmetodo,coeficiente,p_value,coluna_x,coluna_y")
             for x in range(len(columns_all)):
                 for y in range(len(columns)):
-                    coef, p_value = graph.mannwhitneyu(columns_all[x], columns[y], False)
-                    print(f"Mann Whitney,{coef},{p_value},{columns_all[x]},{columns[y]}")
+                    # coef, p_value = graph.mannwhitneyu(columns_all[x], columns[y], False)
+                    # print(f"Mann Whitney,{coef},{p_value},{columns_all[x]},{columns[y]}")
                     
-                    coef, p_value = graph.pearson(columns_all[x], columns[y], False)
-                    print(f"Pearson,{coef},{p_value},{columns_all[x]},{columns[y]}")
+                    # coef, p_value = graph.pearson(columns_all[x], columns[y], False)
+                    # print(f"Pearson,{coef},{p_value},{columns_all[x]},{columns[y]}")
                     
                     coef, p_value = graph.spearman(columns_all[x], columns[y], False)
                     print(f"Spearman,{coef},{p_value},{columns_all[x]},{columns[y]}")
