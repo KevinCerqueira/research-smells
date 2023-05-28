@@ -1,0 +1,47 @@
+[2023-05-27 18:57:51.379551] ERROR: DB:get: name '__qualname__' is not defined 
+[2023-05-27 18:58:07.389436] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:15:20.416561] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:15:20.416772] DEBUG: DB:get:  SQL -> SELECT  *  FROM author_information SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:19:04.606355] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:19:04.606504] DEBUG: DB:get:  SQL -> SELECT  *  FROM author_information SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:20:27.622915] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:20:27.623195] DEBUG: DB:get:  SQL -> SELECT  *  FROM author_information SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:21:06.880097] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:21:06.880326] DEBUG: DB:get:  SQL -> SELECT  *  FROM author_information SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:21:40.382430] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:21:40.382711] DEBUG: DB:get:  SQL -> SELECT  *  FROM author_information  WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:22:18.273048] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:22:18.273397] DEBUG: DB:get:  SQL -> SELECT  *  FROM author_information  WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:22:26.435020] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:22:26.435247] DEBUG: DB:get:  SQL -> SELECT lines_edited FROM author_information  WHERE code_smell >= '100' AND code_smell <= '200' 
+[2023-05-27 19:27:50.369738] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:27:50.370916] DEBUG: DB:get:  SQL -> SELECT lines_edited FROM author_information  WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:28:53.648667] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:28:53.648913] DEBUG: DB:get:  SQL -> SELECT lines_edited FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:30:39.403985] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:32:15.457600] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:35:15.041832] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:35:15.052708] DEBUG: DB:get:  SQL -> SELECT lines_edited FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:39:23.378257] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:39:47.785796] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:40:22.664441] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:40:22.666535] DEBUG: DB:get:  SQL -> SELECT lines_edited FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id AND created_at >= '2020-01-01 00:00:00' 
+[2023-05-27 19:41:22.393445] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:41:22.395837] DEBUG: DB:get:  SQL -> SELECT lines_edited FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id AND created_at >= '2020-01-01 00:00:00' 
+[2023-05-27 19:41:22.396031] ERROR: DB:execute: 'str' object has no attribute 'sql' 
+[2023-05-27 19:42:27.446471] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:42:27.448555] DEBUG: DB:get:  SQL -> SELECT lines_edited FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id AND created_at >= '2020-01-01 00:00:00' 
+[2023-05-27 19:42:42.518642] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:42:42.520007] DEBUG: DB:get:  SQL -> SELECT lines_edited FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id AND created_at >= '2020-01-01 00:00:00' 
+[2023-05-27 19:42:58.281646] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:42:58.283350] DEBUG: DB:get:  SQL -> SELECT lines_edited FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id AND created_at >= '2020-01-01 00:00:00' 
+[2023-05-27 19:42:58.283558] ERROR: DB:execute: 'str' object has no attribute 'sql' 
+[2023-05-27 19:43:06.335745] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:43:06.337197] DEBUG: DB:get:  SQL -> SELECT lines_edited FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id AND created_at >= '2020-01-01 00:00:00' 
+[2023-05-27 19:43:40.159288] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:43:40.160726] DEBUG: DB:get:  SQL -> SELECT lines_edited FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id AND created_at >= '2020-01-01 00:00:00' 
+[2023-05-27 19:43:40.160849] DEBUG: DB:execute:  SQL ->  
+[2023-05-27 19:43:40.160944] ERROR: DB:execute: 'str' object has no attribute 'connect' 
+[2023-05-27 19:44:50.515039] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id 
+[2023-05-27 19:44:50.516618] DEBUG: DB:get:  SQL -> SELECT lines_edited FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' GROUP BY author, project_id AND created_at >= '2020-01-01 00:00:00' 
+[2023-05-27 19:44:50.516754] ERROR: DB:execute: 'str' object has no attribute 'sql' 

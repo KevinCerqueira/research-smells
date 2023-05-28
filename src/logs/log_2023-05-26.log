@@ -1,0 +1,13 @@
+[2023-05-26 17:53:16.413683] DEBUG: DB:  SQL -> None 
+[2023-05-26 19:52:17.563753] DEBUG: DB:  SQL -> None 
+[2023-05-26 19:54:20.459443] DEBUG: DB:  SQL -> None 
+[2023-05-26 19:54:54.788084] DEBUG: get:  SQL -> None 
+[2023-05-26 19:55:28.364034] ERROR: DB: 'DB' object has no attribute 'DB' 
+[2023-05-26 20:00:41.283963] DEBUG: DB:get::  SQL -> None 
+[2023-05-26 20:01:06.727750] DEBUG: DB:get::  SQL -> None 
+[2023-05-26 20:01:47.643689] DEBUG: DB:get::  SQL -> None 
+[2023-05-26 20:02:32.261498] DEBUG: DB:get::  SQL -> None 
+[2023-05-26 20:03:10.529566] DEBUG: DB:get::  SQL -> None 
+[2023-05-26 20:04:37.048555] DEBUG: DB:get::  SQL -> SELECT  *  FROM author_information WHERE code_smell >= 100 AND code_smell <= '200' 
+[2023-05-26 20:05:29.175489] DEBUG: DB:get:  SQL -> SELECT  *  FROM author_information WHERE code_smell >= 100 AND code_smell <= '200' 
+[2023-05-26 20:07:00.266468] DEBUG: DB:get:  SQL -> SELECT code_smells FROM author_information WHERE code_smell >= '100' AND code_smell <= '200' 
