@@ -15,27 +15,26 @@ class Research:
         self.dataset = conn_data_set.cursor()
         
         # Conectando ao banco local
-        path_local_db = os.path.join(BASE_DIR, self.env("RESEARCH_DB"))
+        path_local_db = os.path.join(BASE_DIR, "td_V2.sqlite")
         self.conn_local_db = sqlite3.connect(path_local_db)
         self.local_db = self.conn_local_db.cursor()
 
         # Caso deseje pular a etapa de verificação de leitura e gravação dos projetos e autores 
         if (not fast):
-            pass
-            # self.init_local_table()
+            self.init_local_table()
 
-    # def env(self, var):
-    #     env = '\\.env'
-    #     if(platform.system() in ['Linux', 'Darwin']):
-    #         env = '/.env'
+    def env(self, var):
+        env = '\\.env'
+        if(platform.system() in ['Linux', 'Darwin']):
+            env = '/.env'
             
-    #     with open(os.path.dirname(os.path.realpath(__file__)) + env, 'r', encoding='utf-8') as file_env:
-    #         line = file_env.readline()
-    #         while(line):
-    #             content = line.split('=')
-    #             if(content[0] == var):
-    #                 return content[1].replace('\n', '')
-    #             line = file_env.readline()
+        with open(os.path.dirname(os.path.realpath(__file__)) + env, 'r', encoding='utf-8') as file_env:
+            line = file_env.readline()
+            while(line):
+                content = line.split('=')
+                if(content[0] == var):
+                    return content[1].replace('\n', '')
+                line = file_env.readline()
     
     def env(sefl, var):
         env = '\\.env'
@@ -785,33 +784,186 @@ class Research:
             
         self.conn_local_db.commit()
         
+    def read_commit_date(self):
+
+        self.local_db.execute("""
+            CREATE TABLE IF NOT EXISTS "commit_diff" (
+                "project_id"                      TEXT,
+                "author"	                      TEXT,
+                "commit1"                         TEXT,
+                "commit2"                         TEXT,
+                "commit1_date"                    DATETIME,
+                "commit2_date"                    DATETIME,
+                "diff_date"                       REAL
+            );
+        """)
+        self.conn_local_db.commit()
+        self.local_db.execute("""
+            CREATE TABLE IF NOT EXISTS "author_commit" (
+                "project_id"                      TEXT,
+                "author"	                      TEXT,
+                "commit_hash"                          TEXT,
+                "commit_date"                     DATETIME
+            );
+        """)
+        self.dataset.execute("""
+                SELECT
+            	    DISTINCT
+                    gc.project_id,
+                    gc.author,
+                    gc.commit_hash,
+                    gc.committer_date
+                FROM 
+                    git_commits AS gc
+                INNER JOIN 
+                    sonar_analysis AS sa ON gc.commit_hash = sa.revision
+                INNER JOIN 
+                    sonar_issues AS si ON sa.analysis_key = si.creation_analysis_key
+                WHERE
+                    gc.merge = 'False' 
+                    AND si.rule LIKE 'code_smells:%' 
+                GROUP BY gc.project_id, gc.author, gc.commit_hash;
+        """)
+
+        for result in self.dataset.fetchall():
+            project_id = result[0]
+            author = result[1]
+            commit_hash = result[2]
+            
+            commit_date = datetime.strptime(result[3].replace('Z', '+00:00').replace('T', ' '), '%Y-%m-%d %H:%M:%S%z')
+            final_date = commit_date.strftime('%Y-%m-%d %H:%M:%S')
+            sql = f'INSERT INTO author_commit (project_id, author, commit_hash, commit_date) VALUES ("{project_id}", "{author}", "{commit_hash}", "{final_date}")'
+            print(sql)
+            self.local_db.execute(sql)
+        self.conn_local_db.commit()
+        
+        self.local_db.execute("select project_id, author, commit_hash, commit_date from author_commit ac order by project_id, author, commit_date;")
+        data_anterior = None
+        for result in self.local_db.fetchall():
+            if data_anterior is None:
+                data_anterior = result
+                continue
+            if result[0] != data_anterior[0] or result[1] != data_anterior[1]:
+                data_anterior = result
+                continue
+            # if data_anterior == result:
+            #     continue
+            
+            
+            project_id = data_anterior[0]
+            author = data_anterior[1]
+            commit_hash = data_anterior[2]
+            commit_date = data_anterior[3]
+            date_format = '%Y-%m-%d %H:%M:%S'
+            first_date = datetime.strptime(commit_date, date_format)
+            last_date = datetime.strptime(result[3], date_format)
+            delta = last_date - first_date
+            diff_hours = round((delta.total_seconds() / 3600), 2)
+            self.local_db.execute("INSERT INTO commit_diff (project_id, author, commit1, commit2, commit1_date, commit2_date, diff_date) VALUES (?, ?, ?, ?, ?, ?, ?)", (project_id, author, commit_hash, result[2], commit_date, result[3], diff_hours))
+            self.conn_local_db.commit()
+            data_anterior = result
+    def wcs_read_commit_date(self):
+
+        self.local_db.execute("""
+            CREATE TABLE IF NOT EXISTS "wcs_commit_diff" (
+                "project_id"                      TEXT,
+                "author"	                      TEXT,
+                "commit1"                         TEXT,
+                "commit2"                         TEXT,
+                "commit1_date"                    DATETIME,
+                "commit2_date"                    DATETIME,
+                "diff_date"                       REAL
+            );
+        """)
+        self.conn_local_db.commit()
+        self.local_db.execute("""
+            CREATE TABLE IF NOT EXISTS "wcs_author_commit" (
+                "project_id"                      TEXT,
+                "author"	                      TEXT,
+                "commit_hash"                          TEXT,
+                "commit_date"                     DATETIME
+            );
+        """)
+        self.dataset.execute("""
+                SELECT
+            	    DISTINCT
+                    gc.project_id,
+                    gc.author,
+                    gc.commit_hash,
+                    gc.committer_date
+                FROM git_commits AS gc
+                LEFT JOIN sonar_analysis AS sa ON gc.commit_hash = sa.revision
+                LEFT JOIN sonar_issues AS si ON sa.analysis_key = si.creation_analysis_key
+                WHERE si.creation_analysis_key IS NULL
+                GROUP BY gc.project_id, gc.author, gc.commit_hash;
+        """)
+
+        for result in self.dataset.fetchall():
+            project_id = result[0]
+            author = result[1]
+            commit_hash = result[2]
+            
+            commit_date = datetime.strptime(result[3].replace('Z', '+00:00').replace('T', ' '), '%Y-%m-%d %H:%M:%S%z')
+            final_date = commit_date.strftime('%Y-%m-%d %H:%M:%S')
+            sql = f'INSERT INTO wcs_author_commit (project_id, author, commit_hash, commit_date) VALUES ("{project_id}", "{author}", "{commit_hash}", "{final_date}")'
+            print(sql)
+            self.local_db.execute(sql)
+        self.conn_local_db.commit()
+        
+        self.local_db.execute("select project_id, author, commit_hash, commit_date from wcs_author_commit ac order by project_id, author, commit_date;")
+        data_anterior = None
+        for result in self.local_db.fetchall():
+            if data_anterior is None:
+                data_anterior = result
+                continue
+            if result[0] != data_anterior[0] or result[1] != data_anterior[1]:
+                data_anterior = result
+                continue
+            # if data_anterior == result:
+            #     continue
+            
+            
+            project_id = data_anterior[0]
+            author = data_anterior[1]
+            commit_hash = data_anterior[2]
+            commit_date = data_anterior[3]
+            date_format = '%Y-%m-%d %H:%M:%S'
+            first_date = datetime.strptime(commit_date, date_format)
+            last_date = datetime.strptime(result[3], date_format)
+            delta = last_date - first_date
+            diff_hours = round((delta.total_seconds() / 3600), 2)
+            self.local_db.execute("INSERT INTO wcs_commit_diff (project_id, author, commit1, commit2, commit1_date, commit2_date, diff_date) VALUES (?, ?, ?, ?, ?, ?, ?)", (project_id, author, commit_hash, result[2], commit_date, result[3], diff_hours))
+            self.conn_local_db.commit()
+            data_anterior = result
 # Main do script
 if __name__ == "__main__":
     research = Research(fast=True)
     
-    # research.read_amout_sonar_smells_author()
-    # research.read_amout_sonar_smells_project()
+    research.read_amout_sonar_smells_author()
+    research.read_amout_sonar_smells_project()
     
-    # research.read_amout_code_smells_author()
-    # research.read_amout_code_smells_project()
+    research.read_amout_code_smells_author()
+    research.read_amout_code_smells_project()
 
-    # research.calculate_author_infos()
-    # research.calculate_project_infos()
+    research.calculate_author_infos()
+    research.calculate_project_infos()
 
-    # research.read_number_lines_edited_author()
-    # research.read_number_lines_edited_project()
+    research.read_number_lines_edited_author()
+    research.read_number_lines_edited_project()
     
-    # research.delete_null_authors()
+    research.delete_null_authors()
     
-    # research.percentage_lines_edited()
-    # research.percentage_commits()
-    # research.percentage_experience()
-    # research.percentage_smells()
+    research.percentage_lines_edited()
+    research.percentage_commits()
+    research.percentage_experience()
+    research.percentage_smells()
     
-    # research.delete_null_authors_percentage()
-    # research.init_code_smells_table()
-    # research.read_type_code_smell()
-    # research.init_project_code_smells_table()
-    # research.read_type_project_code_smell()
+    research.delete_null_authors_percentage()
+    research.init_code_smells_table()
+    research.read_type_code_smell()
+    research.init_project_code_smells_table()
+    research.read_type_project_code_smell()
     research.percentage_type_smell()
     
+    research.read_commit_date()
+    research.wcs_read_commit_date()
