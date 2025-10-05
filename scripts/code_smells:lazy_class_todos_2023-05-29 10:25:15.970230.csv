@@ -1,0 +1,6 @@
+metodo,coeficiente,p_value,coluna_x,coluna_y
+Spearman,0.6415760769581181,1.9665191163883773e-16,code_smells,lines_edited
+Spearman,0.4569801953521763,3.631229812207909e-08,code_smells,commits
+Spearman,0.09588093372058087,0.279745655750359,code_smells,experience_in_days
+Spearman,0.09555944828767322,0.2813686033736921,code_smells,experience_in_hours
+Spearman,0.9999999999999998,0.0,code_smells,code_smells

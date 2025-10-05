@@ -1,0 +1,318 @@
+project_id,author,code_smells,lines_edited,commits,sonar_smells
+org.apache:archiva,Wendy Smoak,383,7608,70,636
+org.apache:archiva,Olivier Lamy,946,638910,4147,14971
+org.apache:archiva,Maria Odea B. Ching,481,98886,565,5697
+org.apache:archiva,Marecor M. Baclay,23,8622,17,125
+org.apache:archiva,Joakim Erdfelt,2096,261216,414,21559
+org.apache:archiva,Jevica Arianne B. Zurbano,10,2231,27,60
+org.apache:archiva,Jesse McConnell,341,14978,106,2429
+org.apache:archiva,Jason van Zyl,70,10160,130,195
+org.apache:archiva,James William Dumay,85,396374,110,5614
+org.apache:archiva,Emmanuel Venisse,152,2499,110,515
+org.apache:archiva,Edwin L. Punzalan,234,39866,175,1605
+org.apache:archiva,Carlos Sanchez Gonzalez,1,2046,110,9
+org.apache:archiva,Brett Porter,2319,381007,1444,19259
+org.apache:batik,Vincent Hardy,527,1100517,1858,6042
+org.apache:batik,Thomas E. DeWeese,233,467960,1164,4456
+org.apache:batik,Thierry Kormann,205,289934,1060,2639
+org.apache:batik,Stephane Hillion,1272,644057,822,12729
+org.apache:batik,Dean Jackson,47,23204,22,397
+org.apache:batik,Christophe Jolif,46,49972,282,423
+org.apache:batik,billh,24,30860,142,589
+org.apache:batik,Bella Robinson,8,21772,74,331
+org.apache:bcel,Torsten Curdt,92,72105,81,854
+org.apache:bcel,Sebastian Bazley,14,56402,413,1184
+org.apache:bcel,Markus Dahm,3,11415,138,223
+org.apache:bcel,Mark Thomas,1,1449,12,29
+org.apache:bcel,Mark Emlyn David Thomas,33,26104,14,701
+org.apache:bcel,Jason van Zyl,210,90801,23,3495
+org.apache:bcel,Gary D. Gregory,3,23566,222,371
+org.apache:bcel,Emmanuel Bourg,7,9749,94,122
+org.apache:bcel,David Dixon-Peugh,2,504,3,25
+org.apache:bcel,David Brosius,29,10295,189,266
+org.apache:bcel,Conor MacNeill,103,21893,3,105
+org.apache:bcel,Chas Honton,60,125735,23,631
+org.apache:bcel,Benedikt Ritter,5,12020,71,444
+org.apache:beanutils,Vadim Gritsenko,8,300,2,10
+org.apache:beanutils,Stian Soiland-Reyes,5,2749,63,84
+org.apache:beanutils,Simon Kitching,7,2339,34,84
+org.apache:beanutils,Rodney Waldhoff,9,1954,6,70
+org.apache:beanutils,Robert Burrell Donkin,147,42355,127,1168
+org.apache:beanutils,Oliver Heger,4,7980,177,72
+org.apache:beanutils,Niall Pemberton,86,43908,294,1077
+org.apache:beanutils,James Strachan,4,525,7,10
+org.apache:beanutils,Henri Yandell,2,5449,56,50
+org.apache:beanutils,Geir Magnusson Jr,2,371,5,26
+org.apache:beanutils,Gary D. Gregory,28,26316,95,399
+org.apache:beanutils,Craig R. McClanahan,146,35491,138,2366
+org.apache:cayenne,Tore Halset,20,9729,76,181
+org.apache:cayenne,Michael Ray Gentry,2,2602,74,36
+org.apache:cayenne,"Kevin Joseph Menard, Jr",14,17004,158,116
+org.apache:cayenne,Andrus Adamchik,5391,951734,3353,19809
+org.apache:cocoon,Vadim Gritsenko,139,477222,2522,1147
+org.apache:cocoon,Upayavira,46,150044,228,354
+org.apache:cocoon,Unico Hommes,33,76518,718,608
+org.apache:cocoon,Ugo Cei,20,41019,182,118
+org.apache:cocoon,Torsten Curdt,8,91728,124,156
+org.apache:cocoon,Timothy D. Larson,10,42510,198,335
+org.apache:cocoon,Sylvain Wallez,119,131611,588,907
+org.apache:cocoon,Stephan Michels,85,144604,478,931
+org.apache:cocoon,Stefano Mazzocchi,27,32083,195,122
+org.apache:cocoon,Simone Gianni,17,15612,76,376
+org.apache:cocoon,Reinhard Pötz,763,1313215,2010,17614
+org.apache:cocoon,Ralph Goers,5,128273,78,89
+org.apache:cocoon,Pier Fumagalli,2103,1048746,72,13440
+org.apache:cocoon,Par Daniel Fagerstrohm,272,358401,868,2379
+org.apache:cocoon,Nicola Ken Barozzi,6,8802,54,26
+org.apache:cocoon,Marc Portier,10,8531,108,130
+org.apache:cocoon,Leszek Gawron,112,70338,436,601
+org.apache:cocoon,Lars Trieloff,2,5040,40,18
+org.apache:cocoon,Jorg Heymans,138,618514,480,5884
+org.apache:cocoon,Joerg Heinicke,27,107528,785,453
+org.apache:cocoon,Jeremy Quinn,19,27826,102,404
+org.apache:cocoon,Jeff Turner,20,8734,150,86
+org.apache:cocoon,Jean-Baptiste Quenot,129,86320,106,1733
+org.apache:cocoon,Guido Casper,15,21816,102,171
+org.apache:cocoon,Gregor Rothfuss,3,9624,2,92
+org.apache:cocoon,Gianugo Rabellino,25,12602,80,198
+org.apache:cocoon,Giacomo Pati,74,87535,504,789
+org.apache:cocoon,Geoffrey Alexander Howard,14,19946,130,147
+org.apache:cocoon,David Crossley,3,412060,916,40
+org.apache:cocoon,Christopher Oliver,61,160324,538,1774
+org.apache:cocoon,Christian Haul,67,33180,170,341
+org.apache:cocoon,Carsten Ziegeler,1920,2784642,5456,20316
+org.apache:cocoon,Bruno Dumon,151,49451,463,1216
+org.apache:cocoon,Bertrand Delacretaz,38,358114,364,574
+org.apache:cocoon,Bernhard Huber,16,15342,42,185
+org.apache:cocoon,Antonio Gallardo Rivera,15,188525,1196,453
+org.apache:cocoon,Anthony Collen,1,6518,100,22
+org.apache:codec,Timothy O'Brien,31,16765,89,247
+org.apache:codec,Thomas Neidhart,1,4569,62,37
+org.apache:codec,Stefan Bodewig,6,298,1,8
+org.apache:codec,Sebastian Bazley,16,21025,292,287
+org.apache:codec,Julius Davies,2,2743,12,56
+org.apache:codec,Jochen Wiedmann,12,1535,2,61
+org.apache:codec,Henri Yandell,4,3288,64,87
+org.apache:codec,Gary D. Gregory,64,99221,1112,1321
+org.apache:collections,Thomas Neidhart,136,299198,663,1183
+org.apache:collections,Stephen Colebourne,400,292526,917,3774
+org.apache:collections,Rodney Waldhoff,214,71544,150,2294
+org.apache:collections,pjack,46,16615,39,347
+org.apache:collections,Phil Steitz,37,8920,43,391
+org.apache:collections,Morgan James Delagrange,35,10052,133,295
+org.apache:collections,Michael Smith,38,19604,72,416
+org.apache:collections,Matthew Jason Benson,1,2529,21,38
+org.apache:collections,Matthew Hawthorne,19,1168,6,43
+org.apache:collections,Luc Maisonobe,10,8901,4,44
+org.apache:collections,Jason van Zyl,16,2314,9,102
+org.apache:collections,James W. Carman,8,2796,10,68
+org.apache:collections,James Strachan,59,9974,23,246
+org.apache:collections,Henri Yandell,17,85975,306,352
+org.apache:collections,Geir Magnusson Jr,11,2322,19,66
+org.apache:collections,Gary D. Gregory,1,17267,103,69
+org.apache:collections,Dipanjan Laha,2,561,2,13
+org.apache:collections,Craig R. McClanahan,18,7381,10,420
+org.apache:collections,Brent Worden,7,4430,18,65
+org.apache:collections,Arron Claude Bates,2,1039,2,19
+org.apache:commons-cli,Sebastian Bazley,33,370,29,290
+org.apache:commons-cli,Robert James Oxspring,1040,26304,69,4547
+org.apache:commons-cli,Oliver Heger,41,1227,10,497
+org.apache:commons-cli,No Author,33,,1,1418
+org.apache:commons-cli,Niall Kegan Pemberton,150,4999,38,1240
+org.apache:commons-cli,John Keyes,353,22765,111,5458
+org.apache:commons-cli,Henri Yandell,1391,83088,216,14583
+org.apache:commons-cli,Emmanuel Bourg,436,13691,145,5413
+org.apache:commons-cli,Benedikt Ritter,1,2846,86,87
+org.apache:commons-exec,Siegfried Goeschl,5,13408,300,275
+org.apache:commons-exec,Niklas Gustavsson,19,5023,10,136
+org.apache:commons-exec,Brett Porter,39,6291,18,179
+org.apache:commons-exec,Benedikt Ritter,4,2236,24,69
+org.apache:commons-fileupload,Stephen Colebourne,2,1675,3,2
+org.apache:commons-fileupload,Simone Tripodi,7,9610,258,55
+org.apache:commons-fileupload,Sean Sullivan,9,3170,32,135
+org.apache:commons-fileupload,Martin Cooper,25,17001,135,236
+org.apache:commons-fileupload,Jochen Wiedmann,8,13033,125,150
+org.apache:commons-io,Stephen Colebourne,29,26850,237,636
+org.apache:commons-io,Sebastian Bazley,10,17702,353,211
+org.apache:commons-io,Scott Sanders,8,1670,8,40
+org.apache:commons-io,Olivier Lamy,2,1622,17,36
+org.apache:commons-io,Nicola Ken Barozzi,67,15296,15,649
+org.apache:commons-io,Niall Pemberton,58,36587,342,791
+org.apache:commons-io,Martin Cooper,9,3624,17,110
+org.apache:commons-io,Kristian Rosenvold,1,13155,80,314
+org.apache:commons-io,Jukka Zitting,2,1715,14,21
+org.apache:commons-io,Jochen Wiedmann,3,1875,7,23
+org.apache:commons-io,Jeremias Maerki,17,12323,86,215
+org.apache:commons-io,Henri Yandell,77,43955,245,460
+org.apache:commons-io,Gary D. Gregory,2,24951,385,280
+org.apache:commons-jelly,Stephane Mor,1,308,3,12
+org.apache:commons-jelly,Rodney Waldhoff,3,3244,13,30
+org.apache:commons-jelly,Paul Libbrecht,1,6824,82,45
+org.apache:commons-jelly,Morgan James Delagrange,3,48139,156,67
+org.apache:commons-jelly,James Strachan,273,159629,597,2056
+org.apache:commons-jelly,Dion Gillard,35,144691,724,321
+org.apache:commons-jelly,Bob McWhirter,18,6529,49,249
+org.apache:commons-jexl,Sebastian Bazley,6,4846,207,80
+org.apache:commons-jexl,Rahul Akolkar,28,13850,97,340
+org.apache:commons-jexl,Peter A Royal Jr,133,7664,19,5789
+org.apache:commons-jexl,Niall Pemberton,266,1863,44,9089
+org.apache:commons-jexl,James Strachan,4,2722,31,17
+org.apache:commons-jexl,Henri Yandell,46,1790,19,1811
+org.apache:commons-jexl,Henri Biestro,131,142180,536,1874
+org.apache:commons-jexl,Geir Magnusson Jr,124,21119,54,705
+org.apache:commons-jexl,Dion Gillard,173,50092,424,7196
+org.apache:commons-jexl,Christian Grobmeier,15,9068,13,154
+org.apache:configuration,Ralph Goers,49,16303,54,482
+org.apache:configuration,Oliver Heger,488,564568,2268,2512
+org.apache:configuration,Henning Schmiedehausen,7,3034,25,207
+org.apache:configuration,Emmanuel Bourg,89,45255,228,1240
+org.apache:configuration,Dennis Kieselhorst,1,722,14,6
+org.apache:configuration,David Eric Pugh,179,39779,106,562
+org.apache:daemon,Sebastian Bazley,2,6429,173,23
+org.apache:daemon,Mladen Turk,2,60482,374,114
+org.apache:daemon,Jean-Frederic Clere,4,7096,150,38
+org.apache:dbcp,Sebastian Bazley,6,5084,218,122
+org.apache:dbcp,Rodney Waldhoff,11,10478,44,145
+org.apache:dbcp,Phil Steitz,22,21735,370,437
+org.apache:dbcp,Mark Thomas,26,45210,419,597
+org.apache:dbcp,John McNally,32,11115,13,312
+org.apache:dbcp,Glenn L. Nielsen,5,2485,17,81
+org.apache:dbcp,Dirk Verbeeck,42,18870,236,419
+org.apache:dbcp,Craig R. McClanahan,4,1592,15,72
+org.apache:dbutils,Simone Tripodi,4,6889,122,56
+org.apache:dbutils,Henri Yandell,10,6650,89,189
+org.apache:dbutils,David Graham,7,12555,87,74
+org.apache:dbutils,Carl Franklin Hall,4,3212,10,46
+org.apache:dbutils,Bill Speirs,2,1965,26,22
+org.apache:digester,Simone Tripodi,336,129508,1326,1021
+org.apache:digester,Simon Kitching,52,15986,195,490
+org.apache:digester,Scott Sanders,13,7983,33,197
+org.apache:digester,Robert Burrell Donkin,55,31307,155,901
+org.apache:digester,Rahul Akolkar,18,10190,138,135
+org.apache:digester,Dirk Verbeeck,104,1063,3,104
+org.apache:digester,Craig R. McClanahan,41,19087,99,514
+org.apache:felix,Timothy Bennett,13,3889,29,125
+org.apache:felix,Stephane Frenot,86,69064,129,2793
+org.apache:felix,Rob Walker,30,6919,31,213
+org.apache:felix,Richard S. Hall,383,989946,3155,13748
+org.apache:felix,Michael E. Rodriguez,42,33865,99,1206
+org.apache:felix,Marcel Offermans,16,179278,906,1203
+org.apache:felix,Manuel L. Santillan,25,13672,42,897
+org.apache:felix,Karl Pauls,50,1491729,2953,1526
+org.apache:felix,Humberto Cervantes Maceda,15,5257,5,409
+org.apache:felix,Francesco Furfari,67,32124,97,1349
+org.apache:felix,Alex Karasulu,45,12675,51,337
+org.apache:hive,Zheng Shao,1446,586551,302,8404
+org.apache:hive,Yongqiang He,450,347319,132,2374
+org.apache:hive,Xuefu Zhang,4347,917857,475,50910
+org.apache:hive,Vikram Dixit K,97,50549,48,1504
+org.apache:hive,Vaibhav Gumashta,16,157302,139,775
+org.apache:hive,Thejas Nair,521,258313,344,8669
+org.apache:hive,Szehon Ho,442,49243,190,8659
+org.apache:hive,Sushanth Sowmyan,712,151964,189,13837
+org.apache:hive,Siying Dong,1,18910,16,336
+org.apache:hive,Sergey Shelukhin,586,451787,623,11989
+org.apache:hive,Rui Li,3,60593,82,100
+org.apache:hive,Raghotham Murthy,75,67116,23,730
+org.apache:hive,Prasanth J,626,130068,124,8739
+org.apache:hive,Prasad Suresh Mujumdar,44,2974,20,527
+org.apache:hive,Prasad Chakka,29,7205,21,69
+org.apache:hive,Paul Yang,133,31655,25,540
+org.apache:hive,Owen O'Malley,2502,336009,101,26249
+org.apache:hive,Ning Zhang,430,239937,118,7324
+org.apache:hive,Nigel Daley,8,,1,10
+org.apache:hive,Navis Ryu,120,66101,127,2182
+org.apache:hive,Namit Jain,1785,1150387,735,15331
+org.apache:hive,Kevin Wilfong,693,132021,86,3903
+org.apache:hive,Joydeep Sensarma,31,16935,18,159
+org.apache:hive,John Sichi,757,231828,181,3712
+org.apache:hive,John Pullokkaran,6,87869,34,505
+org.apache:hive,Johan Oskarsson,3,17642,5,255
+org.apache:hive,Jitendra Nath Pandey,42,16413,27,778
+org.apache:hive,Jianyong Dai,16,2092,28,165
+org.apache:hive,Jason Dere,228,270681,341,3784
+org.apache:hive,Harish Butani,1063,70682,67,8396
+org.apache:hive,Gunther Hagleitner,3415,1316973,477,44218
+org.apache:hive,Gopal Vijayaraghavan,13,25042,45,738
+org.apache:hive,Gang Tim Liu,3,2356,7,93
+org.apache:hive,Eugene Koifman,22,95648,260,504
+org.apache:hive,Eric N. Hanson,104,21185,18,777
+org.apache:hive,Edward Capriolo,843,26353,50,2064
+org.apache:hive,Dhruba Borthakur,1120,135585,34,9240
+org.apache:hive,Carl Steinbach,443,168844,192,6280
+org.apache:hive,Brock Noland,1377,496583,459,25198
+org.apache:hive,Ashutosh Chauhan,15343,3169174,1587,154587
+org.apache:hive,Ashish Thusoo,305,44695,51,595
+org.apache:hive,Amareshwari Sri Ramadasu,90,48771,28,2362
+org.apache:hive,Alan Gates,2885,3330643,233,23425
+org.apache:httpclient,Sebastian Bazley,1,10715,424,159
+org.apache:httpclient,Roland Weber,281,40178,250,1287
+org.apache:httpclient,Ortwin Glueck,4,560,5,75
+org.apache:httpclient,Oleg Kalnichevski,988,850865,2018,7408
+org.apache:httpclient,Karl Wright,1,2044,20,47
+org.apache:httpclient,Jonathan Moore,10,13852,107,325
+org.apache:httpclient,Francois-Xavier Bonnet,2,3665,12,39
+org.apache:httpclient,asf-sync-process,1,209,1,13
+org.apache:httpcore,Roland Weber,26,28512,146,488
+org.apache:httpcore,Oleg Kalnichevski,1146,743725,2503,8205
+org.apache:httpcore,Gary D. Gregory,2,27173,216,73
+org.apache:httpcore,asf-sync-process,7,1314,1,37
+org.apache:jxpath,Stephen Colebourne,5,12650,1,5
+org.apache:jxpath,Matthew Jason Benson,2,14785,212,111
+org.apache:jxpath,Emmanuel Bourg,1,6341,6,208
+org.apache:jxpath,Dmitri Plotnikov,143,120319,227,1759
+org.apache:net,Steven M. Cohen,142,19366,106,1784
+org.apache:net,Stephen Colebourne,1579,14622,1,1588
+org.apache:net,Sebastian Bazley,449,70821,1304,5721
+org.apache:net,Rory Winston,901,105230,335,10899
+org.apache:net,Niall Pemberton,473,5972,71,4379
+org.apache:net,Jeffrey Brekke,108,134622,93,8277
+org.apache:net,Henri Yandell,7,3176,21,954
+org.apache:net,Daniel Savarese,4,8654,80,779
+org.apache:ognl,Simone Tripodi,15,50835,290,936
+org.apache:ognl,Olivier Lamy,41,3367,37,278
+org.apache:ognl,Maurizio Cucchiara,41,22546,206,399
+org.apache:ognl,Lukasz Lenart,114,42113,34,2768
+org.apache:ognl,Christian Grobmeier,18,10524,42,91
+org.apache:ognl,Antonio Petrelli,133,9680,1,134
+org.apache:santuario,Sean Mullan,197,66586,410,20337
+org.apache:santuario,Raul Benito Garcia,180,268186,590,3731
+org.apache:santuario,Marc Giger,23,51886,172,656
+org.apache:santuario,Erwin van der Koogh,1,10604,128,191
+org.apache:santuario,Colm O hEigeartaigh,785,513717,1246,5075
+org.apache:santuario,Christian Geuer-Pollmann,690,436316,566,8093
+org.apache:santuario,Berin Lautenbach,26,612215,1156,1205
+org.apache:santuario,Axl Mattheus,21,37136,66,225
+org.apache:thrift,Todd Lipcon,26,1635,14,38
+org.apache:thrift,T Jake Luciani,1,7280,25,582
+org.apache:thrift,Roger Meier,183,110202,718,678
+org.apache:thrift,Doug Cutting,329,,2,1559
+org.apache:thrift,David Reiss,102,108510,860,282
+org.apache:thrift,Bryan Duxbury,351,75797,530,1280
+org.apache:validator,Ted Nathan Husted,3,1846,12,30
+org.apache:validator,Sebastian Bazley,20,14002,313,227
+org.apache:validator,Robert Leland,17,35979,105,158
+org.apache:validator,Niall Kegan Pemberton,61,50292,244,443
+org.apache:validator,James Turner,22,4348,25,115
+org.apache:validator,Eitan Adler,11,4,1,11
+org.apache:validator,David Winterfeldt,90,12632,40,554
+org.apache:validator,David Graham,31,23977,199,254
+org.apache:validator,Benjamin Speakmon,22,3811,53,103
+org.apache:vfs,Ralph Goers,97,39574,170,275
+org.apache:vfs,Rahul Akolkar,10,5429,16,322
+org.apache:vfs,Niall Pemberton,1,2216,35,1
+org.apache:vfs,Mario Ivankovits,105,60192,430,1344
+org.apache:vfs,Joerg Schaible,2,3589,56,40
+org.apache:vfs,James W. Carman,4,855,6,45
+org.apache:vfs,James Strachan,5,9506,5,9
+org.apache:vfs,Henri Yandell,62,13926,26,62
+org.apache:vfs,Gary D. Gregory,110,72412,817,973
+org.apache:vfs,Bernd Eckenfels,3,8993,128,65
+org.apache:vfs,adammurdoch,95,40119,238,596
+org.apache:zookeeper,Raúl Gutiérrez Segalés,4,6144,58,90
+org.apache:zookeeper,Rakesh Radhakrishnan,5,5577,48,101
+org.apache:zookeeper,Patrick D. Hunt,310,161087,400,4154
+org.apache:zookeeper,Michi Mutsuzaki,1,27519,120,54
+org.apache:zookeeper,Flavio Paiva Junqueira,6,38237,85,45
+org.apache:zookeeper,Camille Fournier,2,9909,67,19
+org.apache:zookeeper,Alexander Shraer,1,5056,15,68

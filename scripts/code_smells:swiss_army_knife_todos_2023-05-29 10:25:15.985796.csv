@@ -1,0 +1,6 @@
+metodo,coeficiente,p_value,coluna_x,coluna_y
+Spearman,nan,nan,code_smells,lines_edited
+Spearman,nan,nan,code_smells,commits
+Spearman,nan,nan,code_smells,experience_in_days
+Spearman,nan,nan,code_smells,experience_in_hours
+Spearman,nan,nan,code_smells,code_smells

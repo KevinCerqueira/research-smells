@@ -301,31 +301,33 @@ if __name__ == "__main__":
         print(i," - ", smell, '\n')
         i += 1
         
-    choose_smell = int(input("\n >> Escolha com qual smell você deseja trabalhar: "))
+    # choose_smell = int(input("\n >> Escolha com qual smell você deseja trabalhar: "))
     
-    smell_selected = all_code_smells[choose_smell]
-    graph = Graphs(smell=smell_selected) 
-    while True:
+    # smell_selected = all_code_smells[choose_smell]
+    # graph = Graphs(smell=smell_selected) 
+    for choose_smell in all_code_smells:
+        smell_selected = choose_smell# all_code_smells[choose_smell]
+        graph = Graphs(smell=smell_selected) 
         print("\n\n--------------------------------------------------------------------------------")
-        choose = int(input("""
-            - Qual função você deseja acessar?
-            0. (New) Shapiro-Wilk
-            1. Shapiro-Wilk (somente texto)
-            2. Shapiro-Wilk
-            3. Mann-Whitney U
-            4. Mann-Whitney U (histograma)
-            5. Pearson
-            6. Spearman
-            7. Dispersão comum
-            8. Todos (coeficiente e p-value)
-            9. (New) Mann-Whitney U
+        # choose = int(input("""
+        #     - Qual função você deseja acessar?
+        #     0. (New) Shapiro-Wilk
+        #     1. Shapiro-Wilk (somente texto)
+        #     2. Shapiro-Wilk
+        #     3. Mann-Whitney U
+        #     4. Mann-Whitney U (histograma)
+        #     5. Pearson
+        #     6. Spearman
+        #     7. Dispersão comum
+        #     8. Todos (coeficiente e p-value)
+        #     9. (New) Mann-Whitney U
             
-        >> """))
-        
+        # >> """))
+        choose = 8
         print("\n Colunas disponíveis: \n")
         columns_all = ["code_smells"]
         # columns_all = ["lines_edited","rounded_lines_edited","commits","rounded_commits","experience_in_days","rounded_experience_in_days","experience_in_hours","rounded_experience_in_hours","code_smells","rounded_code_smells","sonar_smells","rounded_sonar_smells"]
-        columns = ["lines_edited","commits","experience_in_days","experience_in_hours", "code_smells"]
+        columns = ["lines_edited","commits","experience_in_hours"]
         
         i = 0
         for column in columns:
@@ -334,19 +336,21 @@ if __name__ == "__main__":
         
         if choose == 8:
             namecsv = datetime.now()
-            with open(f'todos_{namecsv}.csv', 'w') as csvfile:
-                print("\nmetodo,coeficiente,p_value,coluna_x,coluna_y")
+            with open(f'{smell_selected}_todos_{namecsv}.csv', 'w') as csvfile:
+                print("\n code_smells,coeficiente,p_value,coluna_x,coluna_y")
                 csv.writer(csvfile, delimiter=',').writerow(["metodo","coeficiente","p_value","coluna_x","coluna_y"])
                 for x in range(len(columns_all)):
                     for y in range(len(columns)):
-                            coef, p_value = graph.mannwhitneyu(columns_all[x], columns[y], False)
-                            print(f"Mann Whitney,{coef},{p_value},{columns_all[x]},{columns[y]}")
-                            csv.writer(csvfile, delimiter=',').writerow(["Mann Whitney",coef,p_value,columns_all[x],columns[y]])
-                            coef, p_value = graph.pearson(columns_all[x], columns[y], False)
-                            print(f"Pearson,{coef},{p_value},{columns_all[x]},{columns[y]}")
-                            csv.writer(csvfile, delimiter=',').writerow(["Pearson",coef,p_value,columns_all[x],columns[y]])
+                            # coef, p_value = graph.mannwhitneyu(columns_all[x], columns[y], False)
+                            # print(f"Mann Whitney,{coef},{p_value},{columns_all[x]},{columns[y]}")
+                            # csv.writer(csvfile, delimiter=',').writerow(["Mann Whitney",coef,p_value,columns_all[x],columns[y]])
+                            # coef, p_value = graph.pearson(columns_all[x], columns[y], False)
+                            # print(f"Pearson,{coef},{p_value},{columns_all[x]},{columns[y]}")
+                            # csv.writer(csvfile, delimiter=',').writerow(["Pearson",coef,p_value,columns_all[x],columns[y]])
                             coef, p_value = graph.spearman(columns_all[x], columns[y], False)
-                            print(f"Spearman,{coef},{p_value},{columns_all[x]},{columns[y]}")
+                            
+                            smeel = smell_selected.replace("code_smells:","")
+                            print(f"{smeel},{coef},{p_value},{columns_all[x]},{columns[y]}")
                             csv.writer(csvfile, delimiter=',').writerow(["Spearman",coef,p_value,columns_all[x],columns[y]])
                             
                     
@@ -407,6 +411,6 @@ if __name__ == "__main__":
                 elif choose == 9:
                     graph.new_mann(x, y)
         
-        ex = str(input(" - Deseja realizar outra operação? (S/n):"))
-        if(ex == 'n' or ex == 'N'):
-            exit()
+        # ex = str(input(" - Deseja realizar outra operação? (S/n):"))
+        # if(ex == 'n' or ex == 'N'):
+        #     exit()
